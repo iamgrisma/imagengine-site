@@ -166,9 +166,15 @@
         </div>
       </div>
 
-      <div class="mt-6 p-4 rounded-2xl bg-cyan-950/30 border border-cyan-500/30 text-xs text-gray-300">
-        <span class="font-bold text-cyan-300">⚡ Deterministic Zero-Probing Architecture:</span>
-        By specifying the source extension with a hyphen before the target format (<code class="text-cyan-400">logo-png.webp</code>), ImageEngine reconstructs the exact origin URL (<code class="text-cyan-400">logo.png</code>) in a single HTTP request with zero ambiguity and zero trial-and-error checks.
+      <div class="mt-6 p-4 rounded-2xl bg-cyan-950/30 border border-cyan-500/30 text-xs text-gray-300 space-y-2">
+        <div>
+          <span class="font-bold text-cyan-300">⚡ Deterministic Zero-Probing Architecture:</span>
+          By specifying the source extension with a hyphen before the target format (<code class="text-cyan-400">logo-png.webp</code>), ImageEngine reconstructs the exact origin URL (<code class="text-cyan-400">logo.png</code>) in a single HTTP request with zero ambiguity and zero trial-and-error checks.
+        </div>
+        <div>
+          <span class="font-bold text-indigo-300">🌐 Host-Inferred Tenant Routing:</span>
+          When using your dedicated tenant endpoint (e.g. <code class="text-indigo-400">https://img.topnepali.com/abc-jpg.webp</code>), the origin domain is automatically inferred from the host, allowing clean direct asset paths without requiring <code class="text-indigo-400">/tn/main/</code> prefixes.
+        </div>
       </div>
     </section>
 
