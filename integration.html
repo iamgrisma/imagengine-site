@@ -47,10 +47,11 @@
     }
   </script>
   <style>
+    html, body { overflow-x: hidden; max-width: 100vw; }
     body { background-color: #050505; color: #f3f4f6; font-family: "Plus Jakarta Sans", sans-serif; }
     h1, h2, h3, h4, h5, h6, .font-display { font-family: 'Outfit', sans-serif; }
-    pre { background-color: #0a0a0f; border: 1px solid rgba(255,255,255,0.05); border-radius: 1rem; padding: 1.25rem; overflow-x: auto; font-family: "JetBrains Mono", monospace; font-size: 0.85rem; color: #38bdf8; box-shadow: inset 0 2px 15px rgba(0,0,0,0.5); }
-    code { font-family: "JetBrains Mono", monospace; font-size: 0.9em; color: #38bdf8; }
+    pre { background-color: #0a0a0f; border: 1px solid rgba(255,255,255,0.05); border-radius: 1rem; padding: 1rem; overflow-x: auto; max-width: 100%; font-family: "JetBrains Mono", monospace; font-size: 0.8rem; color: #38bdf8; box-shadow: inset 0 2px 15px rgba(0,0,0,0.5); -webkit-overflow-scrolling: touch; }
+    code { font-family: "JetBrains Mono", monospace; font-size: 0.9em; color: #38bdf8; word-break: break-word; }
     
     .mesh-bg {
       background-color: #050505;
@@ -78,11 +79,11 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black mesh-bg">
+<body class="min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black mesh-bg overflow-x-hidden w-full max-w-full">
 
   <!-- Navigation -->
-  <div class="fixed top-0 left-0 w-full z-50 p-4 sm:p-6 pointer-events-none flex justify-center">
-    <header class="pointer-events-auto w-full max-w-5xl rounded-2xl border border-gray-700/40 glass-panel">
+  <div class="fixed top-0 left-0 w-full z-50 p-3 sm:p-6 pointer-events-none flex justify-center">
+    <header class="pointer-events-auto relative w-full max-w-5xl rounded-2xl border border-gray-700/40 glass-panel">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         <div class="flex items-center gap-4 sm:gap-6">
           <a href="/" class="flex items-center gap-2.5">
@@ -99,7 +100,7 @@
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
         </label>
 
-        <nav class="absolute top-full left-0 mt-4 w-full bg-gray-950/95 backdrop-blur-2xl border border-gray-700/50 shadow-2xl rounded-2xl hidden peer-checked:flex flex-col md:static md:w-auto md:bg-transparent md:backdrop-blur-none md:border-none md:shadow-none md:flex md:flex-row items-center md:gap-8 gap-4 text-sm font-medium p-6 md:p-0 transition-all">
+        <nav class="absolute top-full left-0 mt-3 w-full bg-gray-950/95 backdrop-blur-2xl border border-gray-700/50 shadow-2xl rounded-2xl hidden peer-checked:flex flex-col md:static md:w-auto md:bg-transparent md:backdrop-blur-none md:border-none md:shadow-none md:flex md:flex-row items-center md:gap-8 gap-4 text-sm font-medium p-6 md:p-0 transition-all z-50">
           <a href="/" class="text-gray-300 hover:text-white transition w-full md:w-auto text-center md:text-left py-2 md:py-0">Home</a>
           <a href="/docs" class="text-gray-300 hover:text-white transition w-full md:w-auto text-center md:text-left py-2 md:py-0">API Docs</a>
           <a href="/terms" class="text-gray-300 hover:text-white transition w-full md:w-auto text-center md:text-left py-2 md:py-0">Quotas &amp; Terms</a>
@@ -111,7 +112,7 @@
     </header>
   </div>
 
-  <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 py-12 pt-32">
+  <main class="flex-grow w-full max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 pt-28 sm:pt-32 min-w-0">
     <!-- Hero Header -->
     <div class="mb-14">
       <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border-cyan-500/20 text-cyan-400 text-xs font-mono font-semibold mb-6 shadow-inner">
@@ -119,7 +120,7 @@
         <span>•</span>
         <span>Zero Backend Changes</span>
       </div>
-      <h1 class="font-display text-4xl sm:text-6xl font-black text-white tracking-tight mb-6 drop-shadow-md">
+      <h1 class="font-display text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight mb-6 drop-shadow-md break-words">
         1-Line Drop-in Script Integration
       </h1>
       <p class="text-gray-400 text-base sm:text-xl leading-relaxed max-w-3xl font-light">
@@ -128,25 +129,36 @@
     </div>
 
     <!-- Quick Start -->
-    <section class="mb-16 p-8 rounded-3xl glass-panel border-gray-700/50 relative overflow-hidden shadow-lg glow-hover">
+    <section class="mb-16 p-5 sm:p-8 rounded-3xl glass-panel border-gray-700/50 relative overflow-hidden shadow-lg glow-hover">
       <div class="absolute -right-10 -top-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="flex items-center justify-between mb-6 relative">
-        <h2 class="font-display text-2xl font-bold text-white flex items-center gap-3">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-6 relative">
+        <h2 class="font-display text-xl sm:text-2xl font-bold text-white flex items-center gap-3">
           <span class="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-sm">1</span> Add to Your Website Header
         </h2>
-        <span class="text-xs px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono font-semibold shadow-inner">1.2 KB Gzipped</span>
+        <span class="text-xs px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono font-semibold shadow-inner">Unlimited CDN Hits (Free)</span>
       </div>
-      <p class="text-gray-400 text-sm mb-6 relative">
-        Insert this snippet inside your HTML <code class="text-cyan-400 font-mono px-1 rounded bg-white/5">&lt;head&gt;</code> tags. Replace <code class="text-cyan-400 font-mono px-1 rounded bg-white/5">acme</code> with your approved tenant identifier and <code class="text-amber-400 font-mono px-1 rounded bg-white/5">store</code> with your subdomain (or <code class="text-amber-400 font-mono px-1 rounded bg-white/5">main</code> for root domain):
+      <p class="text-gray-400 text-sm mb-6 relative leading-relaxed">
+        Insert this snippet inside your HTML <code class="text-cyan-400 font-mono px-1 rounded bg-white/5">&lt;head&gt;</code> tags. Set <code class="text-cyan-400 font-mono px-1 rounded bg-white/5">data-tenant</code> to your tenant key. For subdomains, specify <code class="text-amber-400 font-mono px-1 rounded bg-white/5">data-subdomain</code> (or omit it for the root domain):
       </p>
 
-      <pre class="relative">&lt;!-- ImageEngine Edge CDN Drop-in --&gt;
-&lt;script 
+      <div class="space-y-4 relative">
+        <div>
+          <div class="text-xs font-mono text-cyan-400 mb-1.5">Option A: HTML Attributes (Root or Subdomain)</div>
+          <pre>&lt;!-- Root Domain --&gt;
+&lt;script src="https://imagengine.grisma.info.np/engine.js" data-tenant="acme" async&gt;&lt;/script&gt;
+
+&lt;!-- Subdomain (e.g. store.acme.com) --&gt;
+&lt;script src="https://imagengine.grisma.info.np/engine.js" data-tenant="acme" data-subdomain="store" async&gt;&lt;/script&gt;</pre>
+        </div>
+        <div>
+          <div class="text-xs font-mono text-emerald-400 mb-1.5">Option B: JSON Configuration</div>
+          <pre>&lt;script 
   src="https://imagengine.grisma.info.np/engine.js" 
-  data-tenant="acme" 
-  data-subdomain="store" 
+  data-options='{"tenant":"acme","subdomain":"store","format":"webp"}' 
   async&gt;
 &lt;/script&gt;</pre>
+        </div>
+      </div>
     </section>
 
     <!-- How it Works Flow -->
@@ -196,40 +208,46 @@
         <span class="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-sm font-sans">3</span> Script Attributes &amp; Customization
       </h2>
 
-      <div class="overflow-x-auto rounded-3xl border border-gray-700/50 glass-panel shadow-lg">
-        <table class="w-full text-left text-sm text-gray-300">
+      <div class="overflow-x-auto max-w-full rounded-2xl sm:rounded-3xl border border-gray-700/50 glass-panel shadow-lg min-w-0">
+        <table class="w-full min-w-[550px] text-left text-xs sm:text-sm text-gray-300">
           <thead class="bg-black/40 text-gray-400 uppercase font-mono border-b border-gray-700/50">
             <tr>
-              <th class="py-4 px-6 font-semibold">Attribute</th>
-              <th class="py-4 px-6 font-semibold">Type</th>
-              <th class="py-4 px-6 font-semibold">Default</th>
-              <th class="py-4 px-6 font-semibold">Description</th>
+              <th class="py-3 sm:py-4 px-4 sm:px-6 font-semibold">Attribute</th>
+              <th class="py-3 sm:py-4 px-4 sm:px-6 font-semibold">Type</th>
+              <th class="py-3 sm:py-4 px-4 sm:px-6 font-semibold">Default</th>
+              <th class="py-3 sm:py-4 px-4 sm:px-6 font-semibold">Description</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-800/60 bg-transparent">
             <tr class="hover:bg-white/5 transition">
-              <td class="py-4 px-6 font-mono text-cyan-400">data-tenant</td>
-              <td class="py-4 px-6 text-gray-500">string (required)</td>
-              <td class="py-4 px-6 text-gray-500">—</td>
-              <td class="py-4 px-6 leading-relaxed">Your registered tenant identifier (e.g. <code class="text-white bg-white/10 px-1 rounded">acme</code>).</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 font-mono text-cyan-400 font-bold">data-tenant</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 text-gray-500">string (required)</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 text-gray-500">—</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 leading-relaxed">Your registered tenant identifier (e.g. <code class="text-white bg-white/10 px-1 rounded">acme</code> or <code class="text-white bg-white/10 px-1 rounded">tn</code>).</td>
             </tr>
             <tr class="hover:bg-white/5 transition">
-              <td class="py-4 px-6 font-mono text-amber-400">data-subdomain</td>
-              <td class="py-4 px-6 text-gray-500">string</td>
-              <td class="py-4 px-6 font-mono text-gray-500">'main'</td>
-              <td class="py-4 px-6 leading-relaxed">The target subdomain of your application (e.g. <code class="text-white bg-white/10 px-1 rounded">app</code>).</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 font-mono text-amber-400 font-bold">data-subdomain</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 text-gray-500">string</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 font-mono text-gray-500">none (root)</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 leading-relaxed">Subdomain prefix (e.g. <code class="text-white bg-white/10 px-1 rounded">store</code>, <code class="text-white bg-white/10 px-1 rounded">blog</code>). Leave empty or omit for root domain.</td>
             </tr>
             <tr class="hover:bg-white/5 transition">
-              <td class="py-4 px-6 font-mono text-emerald-400">data-avatar</td>
-              <td class="py-4 px-6 text-gray-500">boolean</td>
-              <td class="py-4 px-6 font-mono text-gray-500">'false'</td>
-              <td class="py-4 px-6 leading-relaxed">When set to <code class="text-white bg-white/10 px-1 rounded">'true'</code>, applies smart face-aware square cropping.</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 font-mono text-emerald-400 font-bold">data-options</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 text-gray-500">JSON string</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 font-mono text-gray-500">—</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 leading-relaxed">JSON configuration string: <code>{"tenant":"tn","subdomain":"blog","format":"webp"}</code>.</td>
             </tr>
             <tr class="hover:bg-white/5 transition">
-              <td class="py-4 px-6 font-mono text-purple-400">data-cdn</td>
-              <td class="py-4 px-6 text-gray-500">string</td>
-              <td class="py-4 px-6 font-mono text-gray-500">'https://img.grisma.info.np'</td>
-              <td class="py-4 px-6 leading-relaxed">Choose CDN endpoint: <code>https://img.grisma.info.np</code> or <code>https://img.topnepali.com</code>.</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 font-mono text-purple-400 font-bold">data-cdn</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 text-gray-500">string</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 font-mono text-gray-500">'https://img.topnepali.com'</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 leading-relaxed">Edge CDN hostname for image requests.</td>
+            </tr>
+            <tr class="hover:bg-white/5 transition">
+              <td class="py-3 sm:py-4 px-4 sm:px-6 font-mono text-pink-400 font-bold">data-avatar</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 text-gray-500">boolean</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 font-mono text-gray-500">'false'</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 leading-relaxed">When set to <code class="text-white bg-white/10 px-1 rounded">'true'</code>, applies smart face-aware square cropping.</td>
             </tr>
           </tbody>
         </table>
@@ -237,15 +255,15 @@
     </section>
 
     <!-- Opting Out / Skipping Images -->
-    <section class="mb-16 p-8 rounded-3xl glass-panel border-gray-700/50 relative overflow-hidden glow-hover">
+    <section class="mb-16 p-5 sm:p-8 rounded-3xl glass-panel border-gray-700/50 relative overflow-hidden glow-hover">
       <div class="flex items-center gap-3 mb-4">
         <div class="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-sm font-sans font-bold">4</div>
-        <h2 class="font-display text-2xl font-bold text-white">Skipping Specific Images</h2>
+        <h2 class="font-display text-xl sm:text-2xl font-bold text-white">Skipping Specific Images</h2>
       </div>
-      <p class="text-gray-400 text-sm mb-6 leading-relaxed pl-11">
+      <p class="text-gray-400 text-sm mb-6 leading-relaxed sm:pl-11">
         If you have special icons, base64 inline images, or SVGs that you don't want processed through the edge, add the <code class="text-cyan-400 font-mono px-1 rounded bg-white/5">data-no-engine</code> attribute:
       </p>
-      <div class="pl-11">
+      <div class="sm:pl-11">
         <pre>&lt;!-- This image remains completely untouched --&gt;
 &lt;img src="/assets/icons/logo.svg" data-no-engine alt="Company Logo"&gt;</pre>
       </div>
@@ -253,15 +271,15 @@
 
     <!-- Platform Integration Examples -->
     <section class="mb-20">
-      <h2 class="font-display text-3xl font-bold text-white mb-8 flex items-center gap-3">
+      <h2 class="font-display text-2xl sm:text-3xl font-bold text-white mb-8 flex items-center gap-3">
         <span class="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-sm font-sans">5</span> Framework &amp; Platform Guides
       </h2>
 
-      <div class="space-y-8 pl-11">
+      <div class="space-y-8 sm:pl-11">
         <!-- Next.js / React -->
-        <div class="p-8 rounded-3xl glass-panel border-gray-700/40 glow-hover">
+        <div class="p-5 sm:p-8 rounded-3xl glass-panel border-gray-700/40 glow-hover">
           <div class="flex items-center gap-3 mb-4">
-            <h3 class="font-display font-bold text-white text-xl">Next.js <span class="text-gray-500 font-normal text-sm">(App Router / Pages)</span></h3>
+            <h3 class="font-display font-bold text-white text-lg sm:text-xl">Next.js <span class="text-gray-500 font-normal text-sm">(App Router / Pages)</span></h3>
           </div>
           <p class="text-gray-400 text-sm mb-5">Add to your root <code class="text-cyan-400 font-mono">app/layout.tsx</code> or <code class="text-cyan-400 font-mono">pages/_document.tsx</code>:</p>
           <pre>import Script from 'next/script';
@@ -284,9 +302,9 @@ export default function RootLayout({ children }) {
         </div>
 
         <!-- WordPress / PHP -->
-        <div class="p-8 rounded-3xl glass-panel border-gray-700/40 glow-hover">
+        <div class="p-5 sm:p-8 rounded-3xl glass-panel border-gray-700/40 glow-hover">
           <div class="flex items-center gap-3 mb-4">
-            <h3 class="font-display font-bold text-white text-xl">WordPress <span class="text-gray-500 font-normal text-sm">(functions.php)</span></h3>
+            <h3 class="font-display font-bold text-white text-lg sm:text-xl">WordPress <span class="text-gray-500 font-normal text-sm">(functions.php)</span></h3>
           </div>
           <p class="text-gray-400 text-sm mb-5">Insert in your active child theme's <code class="text-cyan-400 font-mono">functions.php</code>:</p>
           <pre>function add_imageengine_script() {
@@ -306,12 +324,12 @@ add_action('wp_enqueue_scripts', 'add_imageengine_script');</pre>
     </section>
 
     <!-- Fail-Safe Guarantee Box -->
-    <section class="mb-20 p-8 sm:p-10 rounded-3xl bg-emerald-950/20 border border-emerald-500/20 shadow-[0_0_40px_rgba(16,185,129,0.05)] relative overflow-hidden glass-panel">
+    <section class="mb-20 p-5 sm:p-8 md:p-10 rounded-3xl bg-emerald-950/20 border border-emerald-500/20 shadow-[0_0_40px_rgba(16,185,129,0.05)] relative overflow-hidden glass-panel">
       <div class="absolute -right-10 -top-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-[60px] pointer-events-none"></div>
       <div class="flex flex-col sm:flex-row items-start gap-6 relative z-10">
-        <div class="text-5xl drop-shadow-[0_0_15px_rgba(16,185,129,0.4)]">🛡️</div>
+        <div class="text-4xl sm:text-5xl drop-shadow-[0_0_15px_rgba(16,185,129,0.4)]">🛡️</div>
         <div>
-          <h3 class="font-display text-2xl font-bold text-emerald-400 mb-3">Zero-Disruption Fallback Guarantee</h3>
+          <h3 class="font-display text-xl sm:text-2xl font-bold text-emerald-400 mb-3">Zero-Disruption Fallback Guarantee</h3>
           <p class="text-emerald-100/70 text-sm leading-relaxed max-w-2xl font-light">
             The drop-in client attaches an autonomous <code class="text-white bg-black/30 px-1 rounded font-mono">error</code> listener to every rewritten image element before swapping the source. If our edge encounters an upstream downtime, DNS glitch, or rate limit quota, the browser instantly swaps back to your server's original asset within 5 milliseconds. Your end-users will never experience broken images.
           </p>
@@ -320,25 +338,25 @@ add_action('wp_enqueue_scripts', 'add_imageengine_script');</pre>
     </section>
 
     <!-- CTA -->
-    <div class="text-center py-12 px-4 rounded-[3rem] bg-gradient-to-t from-cyan-950/30 to-transparent">
-      <h3 class="font-display text-3xl font-black text-white mb-4">Need Tenant Registration?</h3>
-      <p class="text-gray-400 text-base max-w-lg mx-auto mb-8 font-light">
+    <div class="text-center py-8 sm:py-12 px-4 rounded-3xl sm:rounded-[3rem] bg-gradient-to-t from-cyan-950/30 to-transparent">
+      <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-4">Need Tenant Registration?</h3>
+      <p class="text-gray-400 text-sm sm:text-base max-w-lg mx-auto mb-8 font-light">
         Submit your root domain and expected monthly traffic to activate your multi-tenant key.
       </p>
-      <a href="https://grisma.info.np/contact" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-white text-black font-bold text-sm shadow-[0_0_25px_rgba(255,255,255,0.3)] transition transform hover:-translate-y-1 hover:bg-gray-100">
+      <a href="https://grisma.info.np/contact" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-white text-black font-bold text-sm shadow-[0_0_25px_rgba(255,255,255,0.3)] transition transform hover:-translate-y-1 hover:bg-gray-100">
         Submit Onboarding Request ↗
       </a>
     </div>
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-gray-800/60 glass-panel mt-10 text-gray-400 text-sm py-12 rounded-t-[3rem]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+  <footer class="border-t border-gray-800/60 glass-panel mt-10 text-gray-400 text-sm py-8 sm:py-12 rounded-t-3xl sm:rounded-t-[3rem]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
       <div>
         <p>© 2026 ImageEngine Edge CDN. All rights reserved.</p>
         <p class="text-gray-300 mt-1">Architected &amp; Built by <a href="https://grisma.info.np" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:underline font-semibold">Grisma</a></p>
       </div>
-      <div class="flex items-center gap-6">
+      <div class="flex flex-wrap justify-center sm:justify-end gap-4 sm:gap-6 text-xs sm:text-sm">
         <a href="/" class="hover:text-white transition">Home</a>
         <a href="/docs" class="hover:text-white transition">API Docs</a>
         <a href="/terms" class="hover:text-white transition">Terms &amp; Quotas</a>

@@ -53,6 +53,10 @@
     }
   </script>
   <style>
+    html, body {
+      overflow-x: hidden;
+      max-width: 100vw;
+    }
     body { background-color: #050505; color: #f3f4f6; font-family: "Plus Jakarta Sans", sans-serif; }
     h1, h2, h3, h4, h5, h6, .font-display { font-family: 'Outfit', sans-serif; }
     pre, code, .font-mono { font-family: "JetBrains Mono", monospace; }
@@ -96,7 +100,7 @@
 
   <!-- Navigation -->
   <div class="fixed top-0 left-0 w-full z-50 p-4 sm:p-6 pointer-events-none flex justify-center">
-    <header class="pointer-events-auto w-full max-w-5xl rounded-2xl border border-gray-700/40 glass-panel">
+    <header class="relative pointer-events-auto w-full max-w-5xl rounded-2xl border border-gray-700/40 glass-panel">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       <div class="flex items-center gap-6">
         <a href="/" class="flex items-center gap-2.5">
@@ -383,12 +387,12 @@
 
   <!-- Footer -->
   <footer class="border-t border-gray-800/60 glass-panel mt-10 text-gray-400 text-sm py-12 rounded-t-[3rem]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
       <div>
         <p>© 2026 ImageEngine Edge CDN. All rights reserved.</p>
         <p class="text-gray-300 mt-1">Architected &amp; Built by <a href="https://grisma.info.np" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:underline font-semibold">Grisma</a></p>
       </div>
-      <div class="flex items-center gap-6">
+      <div class="flex flex-wrap justify-center sm:justify-end items-center gap-4 sm:gap-6 text-xs sm:text-sm">
         <a href="/docs" class="hover:text-white transition">API Docs</a>
         <a href="/integration" class="hover:text-white transition">Drop-in Script</a>
         <a href="/privacy" class="hover:text-white transition">Privacy Policy</a>

@@ -1,9 +1,14 @@
 /**
  * ImageEngine Drop-in Client Script (v2.0)
  * Accelerates all images on your website with zero-downtime edge fallback.
+ * Hosted on Cloudflare Pages for unlimited, zero-quota edge script delivery.
  * 
- * Usage:
- * <script src="https://imagengine.grisma.info.np/engine.js" data-tenant="YOUR_TENANT_ID" data-subdomain="YOUR_SUBDOMAIN" async></script>
+ * Usage (HTML Attributes):
+ * <script src="https://imagengine.grisma.info.np/engine.js" data-tenant="YOUR_TENANT" data-subdomain="blog" async></script>
+ * 
+ * Usage (JSON Configuration):
+ * <script src="https://imagengine.grisma.info.np/engine.js" data-options='{"tenant":"tn","subdomain":"blog","format":"webp"}' async></script>
+ * Or via global: window.ImageEngineConfig = { tenant: 'tn', subdomain: 'blog' };
  */
 (function() {
   'use strict';
@@ -13,12 +18,31 @@
     return s[s.length - 1];
   })();
 
-  var tenant = script ? script.getAttribute('data-tenant') : '';
-  var subdomain = script ? (script.getAttribute('data-subdomain') || 'main') : 'main';
-  var cdnHost = script ? (script.getAttribute('data-cdn') || 'https://img.grisma.info.np') : 'https://img.grisma.info.np';
-  var autoAvatar = script ? (script.getAttribute('data-avatar') === 'true') : false;
+  // Parse JSON options if provided
+  var jsonOpts = {};
+  if (window.ImageEngineConfig && typeof window.ImageEngineConfig === 'object') {
+    jsonOpts = window.ImageEngineConfig;
+  } else if (script) {
+    var rawOptions = script.getAttribute('data-options');
+    if (rawOptions) {
+      try {
+        jsonOpts = JSON.parse(rawOptions);
+      } catch (e) {}
+    }
+  }
+
+  var tenant = jsonOpts.tenant || (script ? script.getAttribute('data-tenant') : '') || '';
+  var subdomain = jsonOpts.subdomain !== undefined ? jsonOpts.subdomain : (script ? script.getAttribute('data-subdomain') : '');
+  var cdnHost = (jsonOpts.cdn || (script ? script.getAttribute('data-cdn') : '') || 'https://img.topnepali.com').replace(/\/+$/, '');
+  var targetFormat = (jsonOpts.format || (script ? script.getAttribute('data-format') : '') || 'webp').toLowerCase();
+  var autoAvatar = jsonOpts.avatar !== undefined ? Boolean(jsonOpts.avatar) : (script ? script.getAttribute('data-avatar') === 'true' : false);
 
   if (!tenant) return;
+
+  // Clean subdomain (ignore 'main' or '@' or 'www' or empty for root domain)
+  var cleanSub = (subdomain || '').trim().toLowerCase();
+  var isSubdomain = cleanSub && cleanSub !== 'main' && cleanSub !== '@' && cleanSub !== 'www';
+  var namespace = isSubdomain ? (cleanSub + '.' + tenant) : tenant;
 
   function optimizeImage(img) {
     if (!img || img.dataset.engineProcessed || img.dataset.noEngine) return;
@@ -43,15 +67,18 @@
     var isAvatar = autoAvatar || img.classList.contains('avatar') || img.classList.contains('profile-pic');
     var params = [];
     if (isAvatar) params.push('avatar=true');
-    if (img.width && img.width > 0 && img.width < 1200) {
+    if (img.width && img.width > 0 && img.width < 1400) {
       var dpr = window.devicePixelRatio || 1;
       params.push('w=' + Math.round(img.width * (dpr > 1 ? 1.5 : 1)));
     }
+
     var extMatch = cleanPath.match(/\.(jpe?g|png|webp|svg|gif|avif)$/i);
     var edgePath = extMatch
-      ? cleanPath.replace(/\.(jpe?g|png|webp|svg|gif|avif)$/i, function(_, ext) { return '-' + ext.toLowerCase() + '.webp'; })
-      : cleanPath + '.webp';
-    var edgeUrl = cdnHost + '/' + tenant + '/' + subdomain + '/' + edgePath + qs;
+      ? cleanPath.replace(/\.(jpe?g|png|webp|svg|gif|avif)$/i, function(_, ext) { return '-' + ext.toLowerCase() + '.' + targetFormat; })
+      : cleanPath + '.' + targetFormat;
+
+    var qs = params.length ? ('?' + params.join('&')) : '';
+    var edgeUrl = cdnHost + '/' + namespace + '/' + edgePath + qs;
 
     function onImgError() {
       img.removeEventListener('error', onImgError);
