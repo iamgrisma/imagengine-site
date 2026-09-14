@@ -203,13 +203,20 @@
 
     <!-- Query Parameters -->
     <section class="mb-16">
-      <h2 class="font-display text-3xl font-bold text-white mb-8">3. Query Parameters Reference</h2>
+      <div class="flex flex-wrap items-center justify-between mb-6 gap-4">
+        <div>
+          <h2 class="font-display text-3xl font-bold text-white mb-2">3. Query Parameters Reference</h2>
+          <p class="text-gray-400 text-sm">By default, ImageEngine preserves <strong class="text-emerald-400">100% of the original image dimensions and aspect ratio</strong>. Only apply parameters when explicit transformations are desired.</p>
+        </div>
+        <span class="text-xs px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">Original Dimensions Preserved</span>
+      </div>
 
       <div class="overflow-x-auto rounded-3xl border border-gray-700/50 glass-panel shadow-lg">
         <table class="w-full text-left text-sm text-gray-300">
           <thead class="bg-black/40 text-gray-400 uppercase font-mono border-b border-gray-700/50">
             <tr>
               <th class="py-4 px-6 font-semibold">Parameter</th>
+              <th class="py-4 px-6 font-semibold">Aliases</th>
               <th class="py-4 px-6 font-semibold">Type</th>
               <th class="py-4 px-6 font-semibold">Default</th>
               <th class="py-4 px-6 font-semibold">Description</th>
@@ -217,28 +224,67 @@
           </thead>
           <tbody class="divide-y divide-gray-800/60 bg-transparent">
             <tr class="hover:bg-white/5 transition">
-              <td class="py-4 px-6 font-mono text-cyan-400">w</td>
+              <td class="py-4 px-6 font-mono text-cyan-400 font-bold">w</td>
+              <td class="py-4 px-6 font-mono text-gray-400">width</td>
               <td class="py-4 px-6 text-gray-500">integer</td>
-              <td class="py-4 px-6 text-gray-500">original / 1200</td>
-              <td class="py-4 px-6 leading-relaxed">Target width in pixels. Height is scaled proportionally unless <code>h</code> is specified.</td>
+              <td class="py-4 px-6 text-emerald-400 font-mono">original</td>
+              <td class="py-4 px-6 leading-relaxed">Target width in pixels. Original aspect ratio is preserved unless <code>h</code> is also passed.</td>
             </tr>
             <tr class="hover:bg-white/5 transition">
-              <td class="py-4 px-6 font-mono text-cyan-400">h</td>
+              <td class="py-4 px-6 font-mono text-cyan-400 font-bold">h</td>
+              <td class="py-4 px-6 font-mono text-gray-400">height</td>
               <td class="py-4 px-6 text-gray-500">integer</td>
-              <td class="py-4 px-6 text-gray-500">auto</td>
-              <td class="py-4 px-6 leading-relaxed">Target height in pixels.</td>
+              <td class="py-4 px-6 text-emerald-400 font-mono">original</td>
+              <td class="py-4 px-6 leading-relaxed">Target height in pixels. Original aspect ratio is preserved unless <code>w</code> is also passed.</td>
             </tr>
             <tr class="hover:bg-white/5 transition">
-              <td class="py-4 px-6 font-mono text-purple-400">avatar</td>
-              <td class="py-4 px-6 text-gray-500">boolean</td>
-              <td class="py-4 px-6 font-mono text-gray-500">false</td>
-              <td class="py-4 px-6 leading-relaxed">Enables face-aware smart square cropping (defaults to 256x256 WebP).</td>
+              <td class="py-4 px-6 font-mono text-amber-400 font-bold">q</td>
+              <td class="py-4 px-6 font-mono text-gray-400">quality</td>
+              <td class="py-4 px-6 text-gray-500">1 – 100</td>
+              <td class="py-4 px-6 font-mono text-gray-400">85</td>
+              <td class="py-4 px-6 leading-relaxed">Compression quality factor. Higher values preserve maximum detail, lower values save more bandwidth.</td>
             </tr>
             <tr class="hover:bg-white/5 transition">
-              <td class="py-4 px-6 font-mono text-pink-400">format</td>
+              <td class="py-4 px-6 font-mono text-pink-400 font-bold">format</td>
+              <td class="py-4 px-6 font-mono text-gray-400">—</td>
               <td class="py-4 px-6 text-gray-500">string</td>
-              <td class="py-4 px-6 font-mono text-gray-500">webp</td>
-              <td class="py-4 px-6 leading-relaxed">Output image format. Values: <code>webp</code>, <code>png</code>, <code>jpg</code>.</td>
+              <td class="py-4 px-6 font-mono text-gray-400">webp</td>
+              <td class="py-4 px-6 leading-relaxed">Output image codec. Values: <code>webp</code>, <code>png</code>, <code>jpg</code>, <code>avif</code>.</td>
+            </tr>
+            <tr class="hover:bg-white/5 transition">
+              <td class="py-4 px-6 font-mono text-indigo-400 font-bold">fit</td>
+              <td class="py-4 px-6 font-mono text-gray-400">—</td>
+              <td class="py-4 px-6 text-gray-500">string</td>
+              <td class="py-4 px-6 font-mono text-gray-400">cover</td>
+              <td class="py-4 px-6 leading-relaxed">Resize mode when both <code>w</code> and <code>h</code> are provided: <code>cover</code>, <code>contain</code>, <code>fill</code>, <code>inside</code>, <code>outside</code>.</td>
+            </tr>
+            <tr class="hover:bg-white/5 transition">
+              <td class="py-4 px-6 font-mono text-indigo-400 font-bold">position</td>
+              <td class="py-4 px-6 font-mono text-gray-400">—</td>
+              <td class="py-4 px-6 text-gray-500">string</td>
+              <td class="py-4 px-6 font-mono text-gray-400">center</td>
+              <td class="py-4 px-6 leading-relaxed">Crop anchor for <code>cover</code> fit: <code>top</code>, <code>center</code>, <code>bottom</code>, <code>left</code>, <code>right</code>, <code>entropy</code>, <code>attention</code>.</td>
+            </tr>
+            <tr class="hover:bg-white/5 transition">
+              <td class="py-4 px-6 font-mono text-purple-400 font-bold">avatar</td>
+              <td class="py-4 px-6 font-mono text-gray-400">—</td>
+              <td class="py-4 px-6 text-gray-500">boolean</td>
+              <td class="py-4 px-6 font-mono text-gray-400">false</td>
+              <td class="py-4 px-6 leading-relaxed">Applies face-focused top-anchored square crop (defaults to 256x256 WebP or custom <code>w</code>).</td>
+            </tr>
+            <tr class="hover:bg-white/5 transition">
+              <td class="py-4 px-6 font-mono text-emerald-400 font-bold">blur</td>
+              <td class="py-4 px-6 font-mono text-gray-400">—</td>
+              <td class="py-4 px-6 text-gray-500">0.3 – 1000</td>
+              <td class="py-4 px-6 font-mono text-gray-400">none</td>
+              <td class="py-4 px-6 leading-relaxed">Gaussian blur sigma radius. Ideal for generating ultra-low-bandwidth progressive blur placeholders (e.g. <code>?w=40&amp;blur=5</code>).</td>
+            </tr>
+            <tr class="hover:bg-white/5 transition">
+              <td class="py-4 px-6 font-mono text-emerald-400 font-bold">sharpen</td>
+              <td class="py-4 px-6 font-mono text-gray-400">—</td>
+              <td class="py-4 px-6 text-gray-500">boolean</td>
+              <td class="py-4 px-6 font-mono text-gray-400">false</td>
+              <td class="py-4 px-6 leading-relaxed">Applies an adaptive unsharp mask sharpening filter for crystal-clear high-DPI displays.</td>
             </tr>
           </tbody>
         </table>
