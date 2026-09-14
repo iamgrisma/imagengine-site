@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>API Documentation &amp; Universal URL Syntax — ImageEngine</title>
+  <meta name="description" content="Complete developer reference for ImageEngine. Learn multi-tenant namespaced origin routing, dynamic image transformations, face-aware avatars, and edge CDN headers.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://imagengine.grisma.info.np/docs">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://imagengine.grisma.info.np/docs">
+  <meta property="og:title" content="API Reference &amp; Universal Syntax — ImageEngine">
+  <meta property="og:description" content="High-performance dynamic image transformations and multi-tenant edge CDN caching reference.">
+  <meta property="og:site_name" content="ImageEngine">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #030712; color: #f3f4f6; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    pre { background-color: #080e1e; border: 1px solid #1e293b; border-radius: 0.75rem; padding: 1rem; overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.85rem; color: #38bdf8; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.9em; color: #38bdf8; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black">
+
+  <!-- Top Navigation -->
+  <header class="border-b border-gray-800/80 sticky top-0 backdrop-blur-xl bg-gray-950/85 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-6">
+        <a href="/" class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center font-bold text-white text-sm">⚡</div>
+          <span class="font-extrabold text-lg tracking-tight text-white">ImageEngine</span>
+        </a>
+        <span class="text-gray-500">/</span>
+        <span class="text-sm font-semibold text-gray-300">API Documentation</span>
+      </div>
+
+      <nav class="flex items-center gap-6 text-sm font-medium">
+        <a href="/" class="text-gray-300 hover:text-white transition">Home</a>
+        <a href="/integration" class="text-gray-300 hover:text-white transition">Drop-in Script</a>
+        <a href="/terms" class="text-gray-300 hover:text-white transition">Quotas</a>
+        <a href="https://grisma.info.np/contact" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold text-xs transition">
+          Get Access ↗
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 py-12">
+    <div class="mb-12">
+      <div class="inline-block px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-800/50 text-cyan-400 text-xs font-mono font-semibold mb-3">Developer Reference v2.0</div>
+      <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-4">Universal URL Syntax &amp; Transforms</h1>
+      <p class="text-gray-300 text-base sm:text-lg leading-relaxed max-w-3xl">
+        ImageEngine routes, optimizes, and edge-caches any asset on-the-fly using a clean, path-based hierarchical URL pattern.
+      </p>
+    </div>
+
+    <!-- Active CDN Endpoints -->
+    <section class="mb-14 p-6 sm:p-8 rounded-2xl bg-gray-900/70 border border-cyan-500/30">
+      <h2 class="text-xl font-bold text-white mb-2">Active Edge CDN Endpoints</h2>
+      <p class="text-gray-300 text-sm mb-4">
+        You can use either of our official edge hostnames interchangeably:
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
+        <div class="p-3.5 rounded-xl bg-gray-950/80 border border-gray-800 text-cyan-400">
+          <div class="text-gray-400 text-[10px] uppercase font-sans font-semibold mb-1">Primary Endpoint</div>
+          https://img.grisma.info.np
+        </div>
+        <div class="p-3.5 rounded-xl bg-gray-950/80 border border-gray-800 text-amber-400">
+          <div class="text-gray-400 text-[10px] uppercase font-sans font-semibold mb-1">Ecosystem Endpoint</div>
+          https://img.topnepali.com
+        </div>
+      </div>
+    </section>
+
+    <!-- URL Schema -->
+    <section class="mb-14 p-6 sm:p-8 rounded-2xl bg-gray-900/70 border border-gray-800">
+      <h2 class="text-xl font-bold text-white mb-3">1. Universal URL Format</h2>
+      <p class="text-gray-300 text-sm mb-4">
+        Every asset request follows the multi-tenant namespaced schema:
+      </p>
+
+      <pre>https://img.grisma.info.np/{tenant_id}/{subdomain}/{path/to/asset}.webp</pre>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 text-sm">
+        <div class="p-4 rounded-xl bg-gray-950/60 border border-gray-800">
+          <div class="font-bold text-cyan-400 mb-1"><code>{tenant_id}</code></div>
+          <div class="text-gray-400 text-xs">The verified organization identifier mapped to your root domain (e.g. <code>acme</code>).</div>
+        </div>
+        <div class="p-4 rounded-xl bg-gray-950/60 border border-gray-800">
+          <div class="font-bold text-amber-400 mb-1"><code>{subdomain}</code></div>
+          <div class="text-gray-400 text-xs">The specific app or microservice (e.g. <code>store</code>, <code>blog</code>, <code>app</code>). Automatically resolved without manual code changes.</div>
+        </div>
+        <div class="p-4 rounded-xl bg-gray-950/60 border border-gray-800">
+          <div class="font-bold text-emerald-400 mb-1"><code>{path}</code></div>
+          <div class="text-gray-400 text-xs">Relative resource path at your origin (e.g. <code>products/sneaker-white</code>, <code>media/banner</code>).</div>
+        </div>
+        <div class="p-4 rounded-xl bg-gray-950/60 border border-gray-800">
+          <div class="font-bold text-indigo-400 mb-1"><code>.webp</code></div>
+          <div class="text-gray-400 text-xs">Target extension. Supports <code>.webp</code> (recommended), <code>.png</code>, or <code>.jpg</code>.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Generic Examples -->
+    <section class="mb-14">
+      <h2 class="text-2xl font-bold text-white mb-6">2. Generic Real-World Examples</h2>
+
+      <div class="space-y-6">
+        <div class="p-6 rounded-2xl bg-gray-900/60 border border-gray-800">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-bold text-white text-base">E-Commerce Product Image</h3>
+            <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono">WebP 800px</span>
+          </div>
+          <p class="text-gray-400 text-xs mb-3">Fetches from origin <code>https://store.acme.com/products/sneaker.jpg</code>, compresses, and caches globally:</p>
+          <pre>https://img.grisma.info.np/acme/store/products/sneaker.webp?w=800</pre>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-gray-900/60 border border-gray-800">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-bold text-white text-base">User Profile Avatar (Face-Aware Centering)</h3>
+            <span class="text-xs px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400 font-mono">Avatar Mode</span>
+          </div>
+          <p class="text-gray-400 text-xs mb-3">Applies smart top/face-focused cropping and outputs a clean square WebP profile thumbnail:</p>
+          <pre>https://img.grisma.info.np/acme/app/users/avatars/john-doe.webp?avatar=true&amp;w=256</pre>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-gray-900/60 border border-gray-800">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-bold text-white text-base">Dynamic Social Share Preview (OG Card)</h3>
+            <span class="text-xs px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-400 font-mono">1200x630</span>
+          </div>
+          <p class="text-gray-400 text-xs mb-3">Rasterizes on-demand SVG templates with crisp typography directly to social-ready raster WebP:</p>
+          <pre>https://img.grisma.info.np/acme/blog/og/article-1024.webp</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Query Parameters -->
+    <section class="mb-14">
+      <h2 class="text-2xl font-bold text-white mb-6">3. Query Parameters Reference</h2>
+
+      <div class="overflow-x-auto rounded-2xl border border-gray-800 bg-gray-900/60">
+        <table class="w-full text-left text-xs text-gray-300">
+          <thead class="bg-gray-950/80 text-gray-400 uppercase font-mono border-b border-gray-800">
+            <tr>
+              <th class="py-3 px-4">Parameter</th>
+              <th class="py-3 px-4">Type</th>
+              <th class="py-3 px-4">Default</th>
+              <th class="py-3 px-4">Description</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-800/60">
+            <tr>
+              <td class="py-3 px-4 font-mono text-cyan-400">w</td>
+              <td class="py-3 px-4 text-gray-400">integer</td>
+              <td class="py-3 px-4 text-gray-500">original / 1200</td>
+              <td class="py-3 px-4">Target width in pixels. Height is scaled proportionally unless <code>h</code> is specified.</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-mono text-cyan-400">h</td>
+              <td class="py-3 px-4 text-gray-400">integer</td>
+              <td class="py-3 px-4 text-gray-500">auto</td>
+              <td class="py-3 px-4">Target height in pixels.</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-mono text-cyan-400">avatar</td>
+              <td class="py-3 px-4 text-gray-400">boolean</td>
+              <td class="py-3 px-4 font-mono text-gray-400">false</td>
+              <td class="py-3 px-4">Enables face-aware smart square cropping (defaults to 256x256 WebP).</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-mono text-cyan-400">format</td>
+              <td class="py-3 px-4 text-gray-400">string</td>
+              <td class="py-3 px-4 font-mono text-gray-400">webp</td>
+              <td class="py-3 px-4">Output image format. Values: <code>webp</code>, <code>png</code>, <code>jpg</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Edge Headers -->
+    <section class="mb-14 p-6 sm:p-8 rounded-2xl bg-gray-900/60 border border-gray-800">
+      <h2 class="text-xl font-bold text-white mb-3">4. Edge Cache Headers</h2>
+      <p class="text-gray-300 text-sm mb-4">
+        Every optimized asset response contains immutable caching directives honored by modern browsers and Cloudflare's 330+ edge data centers:
+      </p>
+
+      <pre>Cache-Control: public, max-age=31536000, s-maxage=31536000, immutable
+CDN-Cache-Control: public, max-age=31536000, immutable
+CF-Cache-Status: HIT
+X-Render-Engine: sharp-raster (or sharp-svg)</pre>
+    </section>
+
+    <!-- Next Steps CTA -->
+    <div class="p-8 rounded-2xl bg-gradient-to-r from-cyan-950/60 to-blue-950/60 border border-cyan-500/30 text-center">
+      <h3 class="text-xl font-bold text-white mb-2">Want to Integrate in 60 Seconds Without Changing HTML?</h3>
+      <p class="text-gray-300 text-sm mb-6 max-w-xl mx-auto">
+        Check out our zero-touch drop-in client script. It automatically detects and optimizes all images on your website with zero manual URL rewrites.
+      </p>
+      <a href="/integration" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold text-sm transition">
+        <span>⚡ View Drop-in Script Integration</span> →
+      </a>
+    </div>
+  </main>
+
+  <footer class="border-t border-gray-800/80 bg-gray-950 text-gray-400 text-xs py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>© 2026 ImageEngine CDN. Architected by <a href="https://grisma.info.np" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:underline">Grisma</a>.</div>
+      <div class="flex gap-6">
+        <a href="/" class="hover:text-white transition">Home</a>
+        <a href="/integration" class="hover:text-white transition">Drop-in Script</a>
+        <a href="/privacy" class="hover:text-white transition">Privacy Policy</a>
+        <a href="/terms" class="hover:text-white transition">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
