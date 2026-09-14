@@ -145,7 +145,7 @@
         Every asset request follows the multi-tenant namespaced schema:
       </p>
 
-      <pre>https://img.grisma.info.np/{tenant_id}/{subdomain}/{path/to/asset}.webp</pre>
+      <pre>https://img.grisma.info.np/{tenant_id}/{subdomain}/{path/to/asset}-{origExt}.{targetExt}</pre>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8 text-sm">
         <div class="p-5 rounded-2xl bg-black/30 border border-gray-800/80">
@@ -154,24 +154,21 @@
         </div>
         <div class="p-5 rounded-2xl bg-black/30 border border-gray-800/80">
           <div class="font-bold text-indigo-400 mb-2 font-mono text-xs"><code>{subdomain}</code></div>
-          <div class="text-gray-400 text-xs leading-relaxed">The specific app or microservice (e.g. <code>store</code>, <code>blog</code>). Automatically resolved.</div>
+          <div class="text-gray-400 text-xs leading-relaxed">The specific app or microservice (e.g. <code>store</code>, <code>blog</code>). Use <code>main</code> or <code>@</code> for root.</div>
         </div>
         <div class="p-5 rounded-2xl bg-black/30 border border-gray-800/80">
-          <div class="font-bold text-purple-400 mb-2 font-mono text-xs"><code>{path}</code></div>
-          <div class="text-gray-400 text-xs leading-relaxed">Relative resource path at your origin (e.g. <code>products/sneaker-white</code>, <code>media/banner</code>).</div>
+          <div class="font-bold text-purple-400 mb-2 font-mono text-xs"><code>{path}-{origExt}</code></div>
+          <div class="text-gray-400 text-xs leading-relaxed">Exact origin path and source extension (e.g. <code>products/sneaker-jpg</code>, <code>og/banner-svg</code>).</div>
         </div>
         <div class="p-5 rounded-2xl bg-black/30 border border-gray-800/80">
-          <div class="font-bold text-pink-400 mb-2 font-mono text-xs"><code>.webp</code></div>
-          <div class="text-gray-400 text-xs leading-relaxed">Target extension. Supports <code>.webp</code> (recommended), <code>.png</code>, or <code>.jpg</code>.</div>
+          <div class="font-bold text-pink-400 mb-2 font-mono text-xs"><code>.{targetExt}</code></div>
+          <div class="text-gray-400 text-xs leading-relaxed">Desired output format: <code>.webp</code>, <code>.avif</code>, <code>.png</code>, or <code>.jpg</code>.</div>
         </div>
       </div>
 
       <div class="mt-6 p-4 rounded-2xl bg-cyan-950/30 border border-cyan-500/30 text-xs text-gray-300">
-        <span class="font-bold text-cyan-300">⚡ Zero-Probing Origin Optimization:</span>
-        To guarantee a single origin fetch without trial-and-error probes, preserve the origin extension with a dash before <code>.webp</code>:
-        <code class="text-cyan-400">banner-jpg.webp</code> (origin: <code>banner.jpg</code>), 
-        <code class="text-cyan-400">logo-png.webp</code> (origin: <code>logo.png</code>), 
-        <code class="text-cyan-400">graphic-svg.webp</code> (origin: <code>graphic.svg</code>).
+        <span class="font-bold text-cyan-300">⚡ Deterministic Zero-Probing Architecture:</span>
+        By specifying the source extension with a hyphen before the target format (<code class="text-cyan-400">logo-png.webp</code>), ImageEngine reconstructs the exact origin URL (<code class="text-cyan-400">logo.png</code>) in a single HTTP request with zero ambiguity and zero trial-and-error checks.
       </div>
     </section>
 
@@ -186,7 +183,7 @@
             <span class="text-xs px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-mono">WebP 800px</span>
           </div>
           <p class="text-gray-400 text-sm mb-5 leading-relaxed">Fetches from origin <code>https://store.acme.com/products/sneaker.jpg</code>, compresses, and caches globally:</p>
-          <pre>https://img.grisma.info.np/acme/store/products/sneaker.webp?w=800</pre>
+          <pre>https://img.grisma.info.np/acme/store/products/sneaker-jpg.webp?w=800</pre>
         </div>
 
         <div class="p-8 rounded-3xl glass-panel border-gray-700/40 glow-hover">
@@ -195,16 +192,16 @@
             <span class="text-xs px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 font-mono">Avatar Mode</span>
           </div>
           <p class="text-gray-400 text-sm mb-5 leading-relaxed">Applies smart top/face-focused cropping and outputs a clean square WebP profile thumbnail:</p>
-          <pre>https://img.grisma.info.np/acme/app/users/avatars/john-doe.webp?avatar=true&amp;w=256</pre>
+          <pre>https://img.grisma.info.np/acme/app/users/avatars/john-doe-jpg.webp?avatar=true&amp;w=256</pre>
         </div>
 
         <div class="p-8 rounded-3xl glass-panel border-gray-700/40 glow-hover">
           <div class="flex flex-wrap items-center justify-between mb-4 gap-4">
-            <h3 class="font-display font-bold text-white text-xl">Dynamic Social Share Preview</h3>
-            <span class="text-xs px-3 py-1 rounded-full bg-pink-500/10 text-pink-400 border border-pink-500/20 font-mono">1200x630</span>
+            <h3 class="font-display font-bold text-white text-xl">OpenGraph / Social Media Card</h3>
+            <span class="text-xs px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">SVG to WebP</span>
           </div>
-          <p class="text-gray-400 text-sm mb-5 leading-relaxed">Rasterizes on-demand SVG templates with crisp typography directly to social-ready raster WebP:</p>
-          <pre>https://img.grisma.info.np/acme/blog/og/article-1024.webp</pre>
+          <p class="text-gray-400 text-sm mb-5 leading-relaxed">Dynamically renders an origin vector SVG (e.g. <code>https://blog.acme.com/og/article-1024.svg</code>) to WebP:</p>
+          <pre>https://img.grisma.info.np/acme/blog/og/article-1024-svg.webp</pre>
         </div>
       </div>
     </section>
