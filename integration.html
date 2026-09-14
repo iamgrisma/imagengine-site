@@ -128,35 +128,140 @@
       </p>
     </div>
 
-    <!-- Quick Start -->
-    <section class="mb-16 p-5 sm:p-8 rounded-3xl glass-panel border-gray-700/50 relative overflow-hidden shadow-lg glow-hover">
-      <div class="absolute -right-10 -top-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="flex flex-wrap items-center justify-between gap-4 mb-6 relative">
-        <h2 class="font-display text-xl sm:text-2xl font-bold text-white flex items-center gap-3">
-          <span class="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-sm">1</span> Add to Your Website Header
-        </h2>
-        <span class="text-xs px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono font-semibold shadow-inner">Unlimited CDN Hits (Free)</span>
+    <!-- Quick Start & Interactive Builder -->
+    <section class="mb-16 p-5 sm:p-8 rounded-3xl glass-panel border-cyan-500/30 relative overflow-hidden shadow-2xl">
+      <div class="absolute -right-16 -top-16 w-60 h-60 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-6 relative z-10">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono font-bold mb-2">
+            <span>⚡ Interactive Configurator</span>
+          </div>
+          <h2 class="font-display text-2xl sm:text-3xl font-black text-white">
+            Header Script &amp; URL Rewrite Builder
+          </h2>
+        </div>
+        <span class="text-xs px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono font-semibold shadow-inner">
+          Unlimited Cloudflare Edge Delivery
+        </span>
       </div>
-      <p class="text-gray-400 text-sm mb-6 relative leading-relaxed">
-        Insert this snippet inside your HTML <code class="text-cyan-400 font-mono px-1 rounded bg-white/5">&lt;head&gt;</code> tags. Set <code class="text-cyan-400 font-mono px-1 rounded bg-white/5">data-tenant</code> to your tenant key. For subdomains, specify <code class="text-amber-400 font-mono px-1 rounded bg-white/5">data-subdomain</code> (or omit it for the root domain):
+      
+      <p class="text-gray-400 text-sm mb-8 leading-relaxed max-w-3xl">
+        Configure your tenant namespace, subdomains, and per-format rewrite rules below. Generate clean drop-in code ready to paste into your website's <code class="text-cyan-400 font-mono px-1 rounded bg-white/5">&lt;head&gt;</code>.
       </p>
 
-      <div class="space-y-4 relative">
-        <div>
-          <div class="text-xs font-mono text-cyan-400 mb-1.5">Option A: HTML Attributes (Root or Subdomain)</div>
-          <pre>&lt;!-- Root Domain --&gt;
-&lt;script src="https://imagengine.grisma.info.np/engine.js" data-tenant="acme" async&gt;&lt;/script&gt;
-
-&lt;!-- Subdomain (e.g. store.acme.com) --&gt;
-&lt;script src="https://imagengine.grisma.info.np/engine.js" data-tenant="acme" data-subdomain="store" async&gt;&lt;/script&gt;</pre>
+      <!-- Builder Form Controls -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+        <!-- Tenant ID -->
+        <div class="p-4 rounded-2xl bg-black/40 border border-gray-700/60">
+          <label class="block text-xs font-mono font-bold text-cyan-400 mb-1.5 uppercase tracking-wider">Tenant ID *</label>
+          <input type="text" id="cfg-tenant" value="tn" placeholder="e.g. acme, tn" class="w-full bg-gray-900/80 border border-gray-700 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-cyan-400 transition" />
+          <span class="block text-[11px] text-gray-500 mt-1">Your registered domain identifier</span>
         </div>
-        <div>
-          <div class="text-xs font-mono text-emerald-400 mb-1.5">Option B: JSON Configuration</div>
-          <pre>&lt;script 
-  src="https://imagengine.grisma.info.np/engine.js" 
-  data-options='{"tenant":"acme","subdomain":"store","format":"webp"}' 
-  async&gt;
-&lt;/script&gt;</pre>
+
+        <!-- Subdomain -->
+        <div class="p-4 rounded-2xl bg-black/40 border border-gray-700/60">
+          <label class="block text-xs font-mono font-bold text-amber-400 mb-1.5 uppercase tracking-wider">Subdomain (Optional)</label>
+          <input type="text" id="cfg-subdomain" placeholder="e.g. blog, store (leave blank for root)" class="w-full bg-gray-900/80 border border-gray-700 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-amber-400 transition" />
+          <span class="block text-[11px] text-gray-500 mt-1">Leave empty if integrating root domain</span>
+        </div>
+
+        <!-- CDN Host -->
+        <div class="p-4 rounded-2xl bg-black/40 border border-gray-700/60">
+          <label class="block text-xs font-mono font-bold text-purple-400 mb-1.5 uppercase tracking-wider">CDN Endpoint</label>
+          <select id="cfg-cdn" class="w-full bg-gray-900/80 border border-gray-700 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-purple-400 transition">
+            <option value="https://img.topnepali.com" selected>https://img.topnepali.com (Default)</option>
+            <option value="https://img.grisma.info.np">https://img.grisma.info.np</option>
+          </select>
+          <span class="block text-[11px] text-gray-500 mt-1">Global edge CDN cluster</span>
+        </div>
+      </div>
+
+      <!-- Format Rewrite Rules Grid -->
+      <div class="mb-8 p-5 rounded-2xl bg-black/30 border border-gray-700/50">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-display font-bold text-white text-base flex items-center gap-2">
+            <span>🎨 Per-Format URL Rewrite &amp; Optimization Rules</span>
+          </h3>
+          <span class="text-xs text-gray-400 font-mono">Default: WebP for all</span>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- PNG -->
+          <div class="p-3.5 rounded-xl bg-gray-900/50 border border-gray-800">
+            <label class="block text-xs font-mono font-semibold text-cyan-400 mb-1">PNG Images (.png)</label>
+            <select id="cfg-fmt-png" class="w-full bg-black/60 border border-gray-700 rounded-lg px-2.5 py-2 text-xs text-white font-mono focus:outline-none focus:border-cyan-400">
+              <option value="webp" selected>Convert to WebP (Recommended)</option>
+              <option value="avif">Convert to AVIF</option>
+              <option value="preserve">Preserve PNG (Edge Cached)</option>
+              <option value="skip">Skip (Keep Origin URL)</option>
+            </select>
+          </div>
+
+          <!-- JPG -->
+          <div class="p-3.5 rounded-xl bg-gray-900/50 border border-gray-800">
+            <label class="block text-xs font-mono font-semibold text-emerald-400 mb-1">JPG / JPEG (.jpg, .jpeg)</label>
+            <select id="cfg-fmt-jpg" class="w-full bg-black/60 border border-gray-700 rounded-lg px-2.5 py-2 text-xs text-white font-mono focus:outline-none focus:border-emerald-400">
+              <option value="webp" selected>Convert to WebP (Recommended)</option>
+              <option value="avif">Convert to AVIF</option>
+              <option value="preserve">Preserve JPG (100% Quality, 0 Compute)</option>
+              <option value="skip">Skip (Keep Origin URL)</option>
+            </select>
+          </div>
+
+          <!-- GIF -->
+          <div class="p-3.5 rounded-xl bg-gray-900/50 border border-gray-800">
+            <label class="block text-xs font-mono font-semibold text-amber-400 mb-1">GIF Animations (.gif)</label>
+            <select id="cfg-fmt-gif" class="w-full bg-black/60 border border-gray-700 rounded-lg px-2.5 py-2 text-xs text-white font-mono focus:outline-none focus:border-amber-400">
+              <option value="preserve" selected>Preserve GIF (Keep Animation)</option>
+              <option value="webp">Convert to WebP</option>
+              <option value="skip">Skip (Keep Origin URL)</option>
+            </select>
+          </div>
+
+          <!-- SVG -->
+          <div class="p-3.5 rounded-xl bg-gray-900/50 border border-gray-800">
+            <label class="block text-xs font-mono font-semibold text-pink-400 mb-1">Vector SVGs (.svg)</label>
+            <select id="cfg-fmt-svg" class="w-full bg-black/60 border border-gray-700 rounded-lg px-2.5 py-2 text-xs text-white font-mono focus:outline-none focus:border-pink-400">
+              <option value="preserve" selected>Preserve SVG (Vector Passthrough)</option>
+              <option value="webp">Convert to WebP Raster</option>
+              <option value="skip">Skip (Keep Origin URL)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mt-4 flex flex-wrap items-center gap-6 text-xs text-gray-400">
+          <label class="flex items-center gap-2 cursor-pointer select-none">
+            <input type="checkbox" id="cfg-avatar" class="rounded bg-gray-900 border-gray-700 text-cyan-500 focus:ring-0 w-4 h-4 cursor-pointer" />
+            <span>Enable smart avatar face-cropping by default (<code class="text-cyan-400 font-mono">avatar=true</code>)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Config Format Selector & Code Box -->
+      <div>
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+          <div class="flex flex-wrap items-center gap-2 text-xs font-mono">
+            <span class="text-gray-400">Syntax Style:</span>
+            <button type="button" class="cfg-style-btn px-3 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold transition" data-style="json">JSON data-options (Recommended)</button>
+            <button type="button" class="cfg-style-btn px-3 py-1 rounded-lg bg-gray-800/80 text-gray-400 border border-gray-700 hover:text-white transition" data-style="attrs">HTML Attributes</button>
+            <button type="button" class="cfg-style-btn px-3 py-1 rounded-lg bg-gray-800/80 text-gray-400 border border-gray-700 hover:text-white transition" data-style="global">window.ImageEngineConfig</button>
+          </div>
+          <button type="button" id="cfg-copy-btn" class="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-white text-black hover:bg-gray-200 font-bold text-xs shadow transition transform hover:scale-105 active:scale-95">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+            <span id="cfg-copy-text">Copy Code</span>
+          </button>
+        </div>
+
+        <pre id="cfg-output" class="relative overflow-x-auto max-w-full text-xs sm:text-sm font-mono leading-relaxed bg-black/60 border border-gray-800 rounded-2xl p-5 text-cyan-300 shadow-inner min-w-0"></pre>
+
+        <!-- Live Rewrite Simulation Preview -->
+        <div class="mt-4 p-4 rounded-xl bg-gray-950/60 border border-gray-800/80 flex flex-col gap-2 text-xs font-mono">
+          <div class="text-gray-400 flex items-center justify-between">
+            <span class="text-gray-400 font-bold">🔍 Real-time URL Transformation Simulation:</span>
+            <span class="text-[11px] text-emerald-400">Zero trial-and-hit upstream</span>
+          </div>
+          <div id="cfg-simulation" class="space-y-1 text-gray-300 break-all"></div>
         </div>
       </div>
     </section>
@@ -248,6 +353,24 @@
               <td class="py-3 sm:py-4 px-4 sm:px-6 text-gray-500">boolean</td>
               <td class="py-3 sm:py-4 px-4 sm:px-6 font-mono text-gray-500">'false'</td>
               <td class="py-3 sm:py-4 px-4 sm:px-6 leading-relaxed">When set to <code class="text-white bg-white/10 px-1 rounded">'true'</code>, applies smart face-aware square cropping.</td>
+            </tr>
+            <tr class="hover:bg-white/5 transition">
+              <td class="py-3 sm:py-4 px-4 sm:px-6 font-mono text-cyan-300 font-bold">data-formats</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 text-gray-500">string</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 font-mono text-gray-500">'webp' (all)</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 leading-relaxed">Custom per-format mapping rules: e.g. <code class="text-white bg-white/10 px-1 rounded">png:webp,jpg:preserve,gif:preserve,svg:skip</code>.</td>
+            </tr>
+            <tr class="hover:bg-white/5 transition">
+              <td class="py-3 sm:py-4 px-4 sm:px-6 font-mono text-emerald-300 font-bold">data-preserve</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 text-gray-500">string</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 font-mono text-gray-500">—</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 leading-relaxed">Comma-separated formats to route through Edge CDN without conversion (<code class="text-white bg-white/10 px-1 rounded">jpg,gif,svg</code>). 100% original quality, zero compute!</td>
+            </tr>
+            <tr class="hover:bg-white/5 transition">
+              <td class="py-3 sm:py-4 px-4 sm:px-6 font-mono text-rose-400 font-bold">data-skip</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 text-gray-500">string</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 font-mono text-gray-500">—</td>
+              <td class="py-3 sm:py-4 px-4 sm:px-6 leading-relaxed">Comma-separated formats to completely ignore (<code class="text-white bg-white/10 px-1 rounded">svg,gif</code>), leaving original origin URLs untouched.</td>
             </tr>
           </tbody>
         </table>
@@ -365,6 +488,144 @@ add_action('wp_enqueue_scripts', 'add_imageengine_script');</pre>
       </div>
     </div>
   </footer>
+
+  <script>
+    (function() {
+      var tenantEl = document.getElementById('cfg-tenant');
+      var subdomainEl = document.getElementById('cfg-subdomain');
+      var cdnEl = document.getElementById('cfg-cdn');
+      var pngEl = document.getElementById('cfg-fmt-png');
+      var jpgEl = document.getElementById('cfg-fmt-jpg');
+      var gifEl = document.getElementById('cfg-fmt-gif');
+      var svgEl = document.getElementById('cfg-fmt-svg');
+      var avatarEl = document.getElementById('cfg-avatar');
+      var outputEl = document.getElementById('cfg-output');
+      var simEl = document.getElementById('cfg-simulation');
+      var copyBtn = document.getElementById('cfg-copy-btn');
+      var copyText = document.getElementById('cfg-copy-text');
+      var styleBtns = document.querySelectorAll('.cfg-style-btn');
+
+      var currentStyle = 'json';
+
+      styleBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          currentStyle = this.dataset.style;
+          styleBtns.forEach(function(b) {
+            b.className = (b === btn)
+              ? 'cfg-style-btn px-3 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold transition'
+              : 'cfg-style-btn px-3 py-1 rounded-lg bg-gray-800/80 text-gray-400 border border-gray-700 hover:text-white transition';
+          });
+          updateCode();
+        });
+      });
+
+      function escapeHtml(str) {
+        return str
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      function updateCode() {
+        var tenant = (tenantEl.value || 'acme').trim().toLowerCase();
+        var subdomain = (subdomainEl.value || '').trim().toLowerCase();
+        var cdn = cdnEl.value.trim();
+        var png = pngEl.value;
+        var jpg = jpgEl.value;
+        var gif = gifEl.value;
+        var svg = svgEl.value;
+        var isAvatar = avatarEl.checked;
+
+        var formats = {};
+        if (png !== 'webp') formats.png = png;
+        if (jpg !== 'webp') formats.jpg = jpg;
+        if (gif !== 'webp') formats.gif = gif;
+        if (svg !== 'webp') formats.svg = svg;
+
+        var rawCode = '';
+        if (currentStyle === 'json') {
+          var opts = { tenant: tenant };
+          if (subdomain) opts.subdomain = subdomain;
+          if (cdn !== 'https://img.topnepali.com') opts.cdn = cdn;
+          if (Object.keys(formats).length > 0) opts.formats = formats;
+          if (isAvatar) opts.avatar = true;
+
+          var jsonStr = JSON.stringify(opts);
+          rawCode = '<script\n  src="https://imagengine.grisma.info.np/engine.js"\n  data-options=\'' + jsonStr + '\'\n  async>\n<\/script>';
+        } else if (currentStyle === 'attrs') {
+          var attrs = ['src="https://imagengine.grisma.info.np/engine.js"', 'data-tenant="' + tenant + '"'];
+          if (subdomain) attrs.push('data-subdomain="' + subdomain + '"');
+          if (cdn !== 'https://img.topnepali.com') attrs.push('data-cdn="' + cdn + '"');
+          if (Object.keys(formats).length > 0) {
+            var fmtList = Object.keys(formats).map(function(k) { return k + ':' + formats[k]; }).join(',');
+            attrs.push('data-formats="' + fmtList + '"');
+          }
+          if (isAvatar) attrs.push('data-avatar="true"');
+          attrs.push('async');
+
+          rawCode = '<script ' + attrs.join('\n  ') + '><\/script>';
+        } else {
+          var globOpts = { tenant: tenant };
+          if (subdomain) globOpts.subdomain = subdomain;
+          if (cdn !== 'https://img.topnepali.com') globOpts.cdn = cdn;
+          if (Object.keys(formats).length > 0) globOpts.formats = formats;
+          if (isAvatar) globOpts.avatar = true;
+
+          rawCode = '<script>\n  window.ImageEngineConfig = ' + JSON.stringify(globOpts, null, 2).replace(/\n/g, '\n  ') + ';\n<\/script>\n<script src="https://imagengine.grisma.info.np/engine.js" async><\/script>';
+        }
+
+        outputEl.innerHTML = escapeHtml(rawCode);
+
+        // Simulation display
+        var ns = subdomain ? (subdomain + '.' + tenant) : tenant;
+        function resolveSim(file, ext, rule) {
+          if (rule === 'skip') {
+            return '<div class="flex items-center gap-2"><span class="text-gray-500">• /' + file + '.' + ext + '</span> &rarr; <span class="text-amber-400 font-medium">Origin link untouched (/' + file + '.' + ext + ')</span></div>';
+          }
+          var target = (rule === 'preserve') ? ext : rule;
+          var note = (rule === 'preserve') 
+            ? ' <span class="text-emerald-400 font-semibold">(Edge Shielded, 100% Quality, 0 Compute)</span>' 
+            : ' <span class="text-cyan-400">(Auto-optimized ' + target.toUpperCase() + ')</span>';
+          return '<div class="flex items-center gap-2 flex-wrap"><span class="text-gray-400">• /' + file + '.' + ext + '</span> &rarr; <span class="text-cyan-300 font-semibold">' + cdn + '/' + ns + '/' + file + '-' + ext + '.' + target + '</span>' + note + '</div>';
+        }
+
+        var simHtml = [
+          resolveSim('uploads/banner', 'jpg', jpg),
+          resolveSim('assets/logo', 'png', png),
+          resolveSim('stickers/reaction', 'gif', gif),
+          resolveSim('icons/badge', 'svg', svg)
+        ].join('');
+
+        simEl.innerHTML = simHtml;
+      }
+
+      [tenantEl, subdomainEl, cdnEl, pngEl, jpgEl, gifEl, svgEl, avatarEl].forEach(function(el) {
+        if (el) {
+          el.addEventListener('input', updateCode);
+          el.addEventListener('change', updateCode);
+        }
+      });
+
+      copyBtn.addEventListener('click', function() {
+        var temp = document.createElement('textarea');
+        temp.value = outputEl.textContent;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+        copyText.textContent = 'Copied!';
+        copyBtn.className = 'flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-emerald-400 text-black font-bold text-xs shadow transition';
+        setTimeout(function() {
+          copyText.textContent = 'Copy Code';
+          copyBtn.className = 'flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-white text-black hover:bg-gray-200 font-bold text-xs shadow transition transform hover:scale-105 active:scale-95';
+        }, 2000);
+      });
+
+      updateCode();
+    })();
+  </script>
 
 </body>
 </html>
