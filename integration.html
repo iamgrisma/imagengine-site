@@ -19,67 +19,128 @@
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
 
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+            }
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    body { background-color: #030712; color: #f3f4f6; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    pre { background-color: #080e1e; border: 1px solid #1e293b; border-radius: 0.75rem; padding: 1rem; overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.85rem; color: #38bdf8; }
-    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.9em; color: #38bdf8; }
+    body { background-color: #050505; color: #f3f4f6; font-family: "Plus Jakarta Sans", sans-serif; }
+    h1, h2, h3, h4, h5, h6, .font-display { font-family: 'Outfit', sans-serif; }
+    pre { background-color: #0a0a0f; border: 1px solid rgba(255,255,255,0.05); border-radius: 1rem; padding: 1.25rem; overflow-x: auto; font-family: "JetBrains Mono", monospace; font-size: 0.85rem; color: #38bdf8; box-shadow: inset 0 2px 15px rgba(0,0,0,0.5); }
+    code { font-family: "JetBrains Mono", monospace; font-size: 0.9em; color: #38bdf8; }
+    
+    .mesh-bg {
+      background-color: #050505;
+      background-image: 
+        radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+        radial-gradient(at 50% 0%, hsla(225,39%,30%,0.1) 0, transparent 50%), 
+        radial-gradient(at 100% 0%, hsla(339,49%,30%,0.1) 0, transparent 50%);
+    }
+    
+    .glass-panel {
+      background: rgba(17, 24, 39, 0.4);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .glow-hover {
+      transition: all 0.3s ease;
+    }
+    .glow-hover:hover {
+      box-shadow: 0 0 20px rgba(14, 165, 233, 0.3);
+      border-color: rgba(14, 165, 233, 0.5);
+      transform: translateY(-2px);
+    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black">
+<body class="min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black mesh-bg">
 
   <!-- Navigation -->
-  <header class="border-b border-gray-800/80 sticky top-0 backdrop-blur-xl bg-gray-950/85 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-6">
-        <a href="/" class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-cyan-500/20">⚡</div>
-          <span class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">ImageEngine</span>
-        </a>
-        <span class="text-gray-500">/</span>
-        <span class="text-sm font-semibold text-gray-300">Integration</span>
+  <div class="fixed top-0 left-0 w-full z-50 p-4 sm:p-6 pointer-events-none flex justify-center">
+    <header class="pointer-events-auto w-full max-w-5xl rounded-2xl border border-gray-700/40 glass-panel">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-4 sm:gap-6">
+          <a href="/" class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-cyan-500/20">⚡</div>
+            <span class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent hidden sm:inline-block">ImageEngine</span>
+          </a>
+          <span class="text-gray-500 hidden sm:inline-block">/</span>
+          <span class="text-sm font-semibold text-gray-300">Integration</span>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <input type="checkbox" id="menu-toggle" class="hidden peer" />
+        <label for="menu-toggle" class="md:hidden p-2 text-gray-400 hover:text-white cursor-pointer transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+        </label>
+
+        <nav class="absolute top-full left-0 mt-4 w-full bg-gray-950/95 backdrop-blur-2xl border border-gray-700/50 shadow-2xl rounded-2xl hidden peer-checked:flex flex-col md:static md:w-auto md:bg-transparent md:backdrop-blur-none md:border-none md:shadow-none md:flex md:flex-row items-center md:gap-8 gap-4 text-sm font-medium p-6 md:p-0 transition-all">
+          <a href="/" class="text-gray-300 hover:text-white transition w-full md:w-auto text-center md:text-left py-2 md:py-0">Home</a>
+          <a href="/docs" class="text-gray-300 hover:text-white transition w-full md:w-auto text-center md:text-left py-2 md:py-0">API Docs</a>
+          <a href="/terms" class="text-gray-300 hover:text-white transition w-full md:w-auto text-center md:text-left py-2 md:py-0">Quotas &amp; Terms</a>
+          <a href="https://grisma.info.np/contact" target="_blank" rel="noopener noreferrer" class="w-full md:w-auto text-center md:text-left px-5 py-2.5 rounded-full bg-white text-black hover:bg-gray-200 font-bold text-xs shadow-[0_0_15px_rgba(255,255,255,0.3)] transition transform hover:scale-105">
+            Get Access ↗
+          </a>
+        </nav>
       </div>
+    </header>
+  </div>
 
-      <nav class="flex items-center gap-6 text-sm font-medium">
-        <a href="/" class="text-gray-300 hover:text-white transition">Home</a>
-        <a href="/docs" class="text-gray-300 hover:text-white transition">API Docs</a>
-        <a href="/terms" class="text-gray-300 hover:text-white transition">Quotas &amp; Terms</a>
-        <a href="https://grisma.info.np/contact" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold text-xs transition">
-          Get Access ↗
-        </a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 py-12">
+  <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 py-12 pt-32">
     <!-- Hero Header -->
-    <div class="mb-12">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-800/50 text-cyan-400 text-xs font-mono font-semibold mb-3">
+    <div class="mb-14">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border-cyan-500/20 text-cyan-400 text-xs font-mono font-semibold mb-6 shadow-inner">
         <span>Client-Side Accelerator</span>
         <span>•</span>
         <span>Zero Backend Changes</span>
       </div>
-      <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-4">
+      <h1 class="font-display text-4xl sm:text-6xl font-black text-white tracking-tight mb-6 drop-shadow-md">
         1-Line Drop-in Script Integration
       </h1>
-      <p class="text-gray-300 text-base sm:text-lg leading-relaxed max-w-3xl">
-        Accelerate your web application in less than 60 seconds. Add the lightweight script to your document <code class="text-cyan-400">&lt;head&gt;</code>, and ImageEngine automatically offloads all images to the global Edge CDN with built-in instant origin fallback.
+      <p class="text-gray-400 text-base sm:text-xl leading-relaxed max-w-3xl font-light">
+        Accelerate your web application in less than 60 seconds. Add the lightweight script to your document <code class="text-cyan-400 font-mono text-sm px-1.5 py-0.5 rounded bg-cyan-900/20">&lt;head&gt;</code>, and ImageEngine automatically offloads all images to the global Edge CDN with built-in instant origin fallback.
       </p>
     </div>
 
     <!-- Quick Start -->
-    <section class="mb-14 p-6 sm:p-8 rounded-2xl bg-gray-900/70 border border-gray-800 relative overflow-hidden">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-xl font-bold text-white flex items-center gap-2">
-          <span class="text-cyan-400">1.</span> Add to Your Website Header
+    <section class="mb-16 p-8 rounded-3xl glass-panel border-gray-700/50 relative overflow-hidden shadow-lg glow-hover">
+      <div class="absolute -right-10 -top-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="flex items-center justify-between mb-6 relative">
+        <h2 class="font-display text-2xl font-bold text-white flex items-center gap-3">
+          <span class="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-sm">1</span> Add to Your Website Header
         </h2>
-        <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 font-mono">1.2 KB Gzipped</span>
+        <span class="text-xs px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono font-semibold shadow-inner">1.2 KB Gzipped</span>
       </div>
-      <p class="text-gray-300 text-sm mb-4">
-        Insert this snippet inside your HTML <code class="text-cyan-400">&lt;head&gt;</code> tags. Replace <code class="text-cyan-400">acme</code> with your approved tenant identifier and <code class="text-amber-400">store</code> with your subdomain (or <code class="text-amber-400">main</code> for root domain):
+      <p class="text-gray-400 text-sm mb-6 relative">
+        Insert this snippet inside your HTML <code class="text-cyan-400 font-mono px-1 rounded bg-white/5">&lt;head&gt;</code> tags. Replace <code class="text-cyan-400 font-mono px-1 rounded bg-white/5">acme</code> with your approved tenant identifier and <code class="text-amber-400 font-mono px-1 rounded bg-white/5">store</code> with your subdomain (or <code class="text-amber-400 font-mono px-1 rounded bg-white/5">main</code> for root domain):
       </p>
 
-      <pre>&lt;!-- ImageEngine Edge CDN Drop-in --&gt;
+      <pre class="relative">&lt;!-- ImageEngine Edge CDN Drop-in --&gt;
 &lt;script 
   src="https://imagengine.grisma.info.np/engine.js" 
   data-tenant="acme" 
@@ -89,82 +150,86 @@
     </section>
 
     <!-- How it Works Flow -->
-    <section class="mb-14">
-      <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-        <span class="text-cyan-400">2.</span> How It Works Under The Hood
+    <section class="mb-16">
+      <h2 class="font-display text-3xl font-bold text-white mb-8 flex items-center gap-3">
+        <span class="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-sm font-sans">2</span> How It Works Under The Hood
       </h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="p-6 rounded-2xl bg-gray-900/60 border border-gray-800">
-          <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold mb-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+        <div class="hidden md:block absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-700/50 to-transparent -z-10"></div>
+        
+        <div class="p-8 rounded-3xl glass-panel border-gray-700/40 glow-hover bg-black/20">
+          <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold mb-6 text-xl shadow-[0_0_15px_rgba(34,211,238,0.2)]">
             01
           </div>
-          <h3 class="font-bold text-white mb-2">DOM Interception</h3>
-          <p class="text-gray-400 text-xs leading-relaxed">
-            The script listens to page load and active DOM mutations using <code class="text-cyan-400">MutationObserver</code>, capturing all newly inserted or existing <code class="text-cyan-400">&lt;img&gt;</code> elements dynamically.
+          <h3 class="font-display font-bold text-white text-xl mb-3">DOM Interception</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            The script listens to page load and active DOM mutations using <code class="text-cyan-400 font-mono">MutationObserver</code>, capturing all newly inserted or existing <code class="text-cyan-400 font-mono">&lt;img&gt;</code> elements dynamically.
           </p>
         </div>
 
-        <div class="p-6 rounded-2xl bg-gray-900/60 border border-gray-800">
-          <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold mb-4">
+        <div class="p-8 rounded-3xl glass-panel border-gray-700/40 glow-hover bg-black/20 transform md:-translate-y-2">
+          <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold mb-6 text-xl shadow-[0_0_15px_rgba(99,102,241,0.2)]">
             02
           </div>
-          <h3 class="font-bold text-white mb-2">Smart URL Rewriting</h3>
-          <p class="text-gray-400 text-xs leading-relaxed">
-            Converts relative or origin paths to optimized edge URLs (<code class="text-cyan-400">/acme/store/path.webp</code>), computing responsive device pixel ratios (<code class="text-amber-400">w=...</code>) automatically.
+          <h3 class="font-display font-bold text-white text-xl mb-3">Smart URL Rewriting</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            Converts relative or origin paths to optimized edge URLs, computing responsive device pixel ratios (<code class="text-amber-400 font-mono">w=...</code>) automatically without manual srcset generation.
           </p>
         </div>
 
-        <div class="p-6 rounded-2xl bg-gray-900/60 border border-gray-800">
-          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold mb-4">
+        <div class="p-8 rounded-3xl glass-panel border-gray-700/40 glow-hover bg-black/20">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold mb-6 text-xl shadow-[0_0_15px_rgba(16,185,129,0.2)]">
             03
           </div>
-          <h3 class="font-bold text-white mb-2">Zero-Risk Revert</h3>
-          <p class="text-gray-400 text-xs leading-relaxed">
-            Preserves the original source in memory. If any network timeout, origin 404, or rate limit occurs, the element instantly rolls back to its original <code class="text-emerald-400">src</code> without broken images.
+          <h3 class="font-display font-bold text-white text-xl mb-3">Zero-Risk Revert</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            Preserves the original source in memory. If any network timeout or origin 404 occurs, the element instantly rolls back to its original <code class="text-emerald-400 font-mono">src</code> without broken images.
           </p>
         </div>
       </div>
     </section>
 
     <!-- Configuration Options -->
-    <section class="mb-14">
-      <h2 class="text-2xl font-bold text-white mb-6">3. Script Attributes &amp; Customization</h2>
+    <section class="mb-16">
+      <h2 class="font-display text-3xl font-bold text-white mb-8 flex items-center gap-3">
+        <span class="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-sm font-sans">3</span> Script Attributes &amp; Customization
+      </h2>
 
-      <div class="overflow-x-auto rounded-2xl border border-gray-800 bg-gray-900/60">
-        <table class="w-full text-left text-xs text-gray-300">
-          <thead class="bg-gray-950/80 text-gray-400 uppercase font-mono border-b border-gray-800">
+      <div class="overflow-x-auto rounded-3xl border border-gray-700/50 glass-panel shadow-lg">
+        <table class="w-full text-left text-sm text-gray-300">
+          <thead class="bg-black/40 text-gray-400 uppercase font-mono border-b border-gray-700/50">
             <tr>
-              <th class="py-3 px-4">Attribute</th>
-              <th class="py-3 px-4">Type</th>
-              <th class="py-3 px-4">Default</th>
-              <th class="py-3 px-4">Description</th>
+              <th class="py-4 px-6 font-semibold">Attribute</th>
+              <th class="py-4 px-6 font-semibold">Type</th>
+              <th class="py-4 px-6 font-semibold">Default</th>
+              <th class="py-4 px-6 font-semibold">Description</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-800/60">
-            <tr>
-              <td class="py-3 px-4 font-mono text-cyan-400">data-tenant</td>
-              <td class="py-3 px-4 text-gray-400">string (required)</td>
-              <td class="py-3 px-4 text-gray-500">—</td>
-              <td class="py-3 px-4">Your registered tenant identifier (e.g. <code class="text-white">acme</code>, <code class="text-white">mybrand</code>).</td>
+          <tbody class="divide-y divide-gray-800/60 bg-transparent">
+            <tr class="hover:bg-white/5 transition">
+              <td class="py-4 px-6 font-mono text-cyan-400">data-tenant</td>
+              <td class="py-4 px-6 text-gray-500">string (required)</td>
+              <td class="py-4 px-6 text-gray-500">—</td>
+              <td class="py-4 px-6 leading-relaxed">Your registered tenant identifier (e.g. <code class="text-white bg-white/10 px-1 rounded">acme</code>).</td>
             </tr>
-            <tr>
-              <td class="py-3 px-4 font-mono text-amber-400">data-subdomain</td>
-              <td class="py-3 px-4 text-gray-400">string</td>
-              <td class="py-3 px-4 font-mono text-gray-400">'main'</td>
-              <td class="py-3 px-4">The target subdomain of your application (e.g. <code class="text-white">app</code>, <code class="text-white">store</code>, <code class="text-white">blog</code>).</td>
+            <tr class="hover:bg-white/5 transition">
+              <td class="py-4 px-6 font-mono text-amber-400">data-subdomain</td>
+              <td class="py-4 px-6 text-gray-500">string</td>
+              <td class="py-4 px-6 font-mono text-gray-500">'main'</td>
+              <td class="py-4 px-6 leading-relaxed">The target subdomain of your application (e.g. <code class="text-white bg-white/10 px-1 rounded">app</code>).</td>
             </tr>
-            <tr>
-              <td class="py-3 px-4 font-mono text-emerald-400">data-avatar</td>
-              <td class="py-3 px-4 text-gray-400">boolean</td>
-              <td class="py-3 px-4 font-mono text-gray-400">'false'</td>
-              <td class="py-3 px-4">When set to <code class="text-white">'true'</code>, automatically applies smart face-aware square cropping to all images.</td>
+            <tr class="hover:bg-white/5 transition">
+              <td class="py-4 px-6 font-mono text-emerald-400">data-avatar</td>
+              <td class="py-4 px-6 text-gray-500">boolean</td>
+              <td class="py-4 px-6 font-mono text-gray-500">'false'</td>
+              <td class="py-4 px-6 leading-relaxed">When set to <code class="text-white bg-white/10 px-1 rounded">'true'</code>, applies smart face-aware square cropping.</td>
             </tr>
-            <tr>
-              <td class="py-3 px-4 font-mono text-purple-400">data-cdn</td>
-              <td class="py-3 px-4 text-gray-400">string</td>
-              <td class="py-3 px-4 font-mono text-gray-400">'https://img.grisma.info.np'</td>
-              <td class="py-3 px-4">Choose CDN endpoint: <code>https://img.grisma.info.np</code> or <code>https://img.topnepali.com</code>.</td>
+            <tr class="hover:bg-white/5 transition">
+              <td class="py-4 px-6 font-mono text-purple-400">data-cdn</td>
+              <td class="py-4 px-6 text-gray-500">string</td>
+              <td class="py-4 px-6 font-mono text-gray-500">'https://img.grisma.info.np'</td>
+              <td class="py-4 px-6 leading-relaxed">Choose CDN endpoint: <code>https://img.grisma.info.np</code> or <code>https://img.topnepali.com</code>.</td>
             </tr>
           </tbody>
         </table>
@@ -172,24 +237,33 @@
     </section>
 
     <!-- Opting Out / Skipping Images -->
-    <section class="mb-14 p-6 sm:p-8 rounded-2xl bg-gray-900/60 border border-gray-800">
-      <h2 class="text-xl font-bold text-white mb-3">4. Skipping Specific Images</h2>
-      <p class="text-gray-300 text-sm mb-4">
-        If you have special icons, base64 inline images, or SVGs that you don't want processed through the edge, add the <code class="text-cyan-400">data-no-engine</code> attribute:
+    <section class="mb-16 p-8 rounded-3xl glass-panel border-gray-700/50 relative overflow-hidden glow-hover">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-sm font-sans font-bold">4</div>
+        <h2 class="font-display text-2xl font-bold text-white">Skipping Specific Images</h2>
+      </div>
+      <p class="text-gray-400 text-sm mb-6 leading-relaxed pl-11">
+        If you have special icons, base64 inline images, or SVGs that you don't want processed through the edge, add the <code class="text-cyan-400 font-mono px-1 rounded bg-white/5">data-no-engine</code> attribute:
       </p>
-      <pre>&lt;!-- This image remains completely untouched --&gt;
+      <div class="pl-11">
+        <pre>&lt;!-- This image remains completely untouched --&gt;
 &lt;img src="/assets/icons/logo.svg" data-no-engine alt="Company Logo"&gt;</pre>
+      </div>
     </section>
 
     <!-- Platform Integration Examples -->
-    <section class="mb-14">
-      <h2 class="text-2xl font-bold text-white mb-6">5. Framework &amp; Platform Guides</h2>
+    <section class="mb-20">
+      <h2 class="font-display text-3xl font-bold text-white mb-8 flex items-center gap-3">
+        <span class="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-sm font-sans">5</span> Framework &amp; Platform Guides
+      </h2>
 
-      <div class="space-y-6">
+      <div class="space-y-8 pl-11">
         <!-- Next.js / React -->
-        <div class="p-6 rounded-2xl bg-gray-900/60 border border-gray-800">
-          <h3 class="font-bold text-white text-base mb-2">Next.js (App Router / Pages)</h3>
-          <p class="text-gray-400 text-xs mb-3">Add to your root <code class="text-cyan-400">app/layout.tsx</code> or <code class="text-cyan-400">pages/_document.tsx</code>:</p>
+        <div class="p-8 rounded-3xl glass-panel border-gray-700/40 glow-hover">
+          <div class="flex items-center gap-3 mb-4">
+            <h3 class="font-display font-bold text-white text-xl">Next.js <span class="text-gray-500 font-normal text-sm">(App Router / Pages)</span></h3>
+          </div>
+          <p class="text-gray-400 text-sm mb-5">Add to your root <code class="text-cyan-400 font-mono">app/layout.tsx</code> or <code class="text-cyan-400 font-mono">pages/_document.tsx</code>:</p>
           <pre>import Script from 'next/script';
 
 export default function RootLayout({ children }) {
@@ -210,9 +284,11 @@ export default function RootLayout({ children }) {
         </div>
 
         <!-- WordPress / PHP -->
-        <div class="p-6 rounded-2xl bg-gray-900/60 border border-gray-800">
-          <h3 class="font-bold text-white text-base mb-2">WordPress (functions.php)</h3>
-          <p class="text-gray-400 text-xs mb-3">Insert in your active child theme's <code class="text-cyan-400">functions.php</code>:</p>
+        <div class="p-8 rounded-3xl glass-panel border-gray-700/40 glow-hover">
+          <div class="flex items-center gap-3 mb-4">
+            <h3 class="font-display font-bold text-white text-xl">WordPress <span class="text-gray-500 font-normal text-sm">(functions.php)</span></h3>
+          </div>
+          <p class="text-gray-400 text-sm mb-5">Insert in your active child theme's <code class="text-cyan-400 font-mono">functions.php</code>:</p>
           <pre>function add_imageengine_script() {
     wp_enqueue_script(
         'imageengine-client',
@@ -230,32 +306,33 @@ add_action('wp_enqueue_scripts', 'add_imageengine_script');</pre>
     </section>
 
     <!-- Fail-Safe Guarantee Box -->
-    <section class="mb-14 p-6 sm:p-8 rounded-2xl bg-emerald-950/30 border border-emerald-500/30">
-      <div class="flex items-start gap-4">
-        <div class="text-3xl">🛡️</div>
+    <section class="mb-20 p-8 sm:p-10 rounded-3xl bg-emerald-950/20 border border-emerald-500/20 shadow-[0_0_40px_rgba(16,185,129,0.05)] relative overflow-hidden glass-panel">
+      <div class="absolute -right-10 -top-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-[60px] pointer-events-none"></div>
+      <div class="flex flex-col sm:flex-row items-start gap-6 relative z-10">
+        <div class="text-5xl drop-shadow-[0_0_15px_rgba(16,185,129,0.4)]">🛡️</div>
         <div>
-          <h3 class="text-lg font-bold text-emerald-300 mb-1">Zero-Disruption Fallback Guarantee</h3>
-          <p class="text-gray-300 text-xs leading-relaxed">
-            The drop-in client attaches an autonomous <code class="text-white">error</code> listener to every rewritten image element before swapping the source. If our edge encounters an upstream downtime, DNS glitch, or rate limit quota, the browser instantly swaps back to your server's original asset within 5 milliseconds. Your end-users will never experience broken images.
+          <h3 class="font-display text-2xl font-bold text-emerald-400 mb-3">Zero-Disruption Fallback Guarantee</h3>
+          <p class="text-emerald-100/70 text-sm leading-relaxed max-w-2xl font-light">
+            The drop-in client attaches an autonomous <code class="text-white bg-black/30 px-1 rounded font-mono">error</code> listener to every rewritten image element before swapping the source. If our edge encounters an upstream downtime, DNS glitch, or rate limit quota, the browser instantly swaps back to your server's original asset within 5 milliseconds. Your end-users will never experience broken images.
           </p>
         </div>
       </div>
     </section>
 
     <!-- CTA -->
-    <div class="text-center py-8">
-      <h3 class="text-2xl font-bold text-white mb-3">Need Tenant Registration?</h3>
-      <p class="text-gray-400 text-sm max-w-lg mx-auto mb-6">
+    <div class="text-center py-12 px-4 rounded-[3rem] bg-gradient-to-t from-cyan-950/30 to-transparent">
+      <h3 class="font-display text-3xl font-black text-white mb-4">Need Tenant Registration?</h3>
+      <p class="text-gray-400 text-base max-w-lg mx-auto mb-8 font-light">
         Submit your root domain and expected monthly traffic to activate your multi-tenant key.
       </p>
-      <a href="https://grisma.info.np/contact" target="_blank" rel="noopener noreferrer" class="px-8 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold text-sm shadow-xl shadow-cyan-500/30 transition">
+      <a href="https://grisma.info.np/contact" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-white text-black font-bold text-sm shadow-[0_0_25px_rgba(255,255,255,0.3)] transition transform hover:-translate-y-1 hover:bg-gray-100">
         Submit Onboarding Request ↗
       </a>
     </div>
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-gray-800/80 bg-gray-950/90 text-gray-400 text-xs py-10">
+  <footer class="border-t border-gray-800/60 glass-panel mt-10 text-gray-400 text-sm py-12 rounded-t-[3rem]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div>
         <p>© 2026 ImageEngine Edge CDN. All rights reserved.</p>

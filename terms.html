@@ -19,64 +19,125 @@
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
 
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+            }
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    body { background-color: #030712; color: #f3f4f6; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    pre { background-color: #080e1e; border: 1px solid #1e293b; border-radius: 0.75rem; padding: 1rem; overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.85rem; color: #38bdf8; }
-    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.9em; color: #38bdf8; }
+    body { background-color: #050505; color: #f3f4f6; font-family: "Plus Jakarta Sans", sans-serif; }
+    h1, h2, h3, h4, h5, h6, .font-display { font-family: 'Outfit', sans-serif; }
+    pre { background-color: #0a0a0f; border: 1px solid rgba(255,255,255,0.05); border-radius: 1rem; padding: 1.25rem; overflow-x: auto; font-family: "JetBrains Mono", monospace; font-size: 0.85rem; color: #38bdf8; box-shadow: inset 0 2px 15px rgba(0,0,0,0.5); }
+    code { font-family: "JetBrains Mono", monospace; font-size: 0.9em; color: #38bdf8; }
+    
+    .mesh-bg {
+      background-color: #050505;
+      background-image: 
+        radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+        radial-gradient(at 50% 0%, hsla(225,39%,30%,0.1) 0, transparent 50%), 
+        radial-gradient(at 100% 0%, hsla(339,49%,30%,0.1) 0, transparent 50%);
+    }
+    
+    .glass-panel {
+      background: rgba(17, 24, 39, 0.4);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .glow-hover {
+      transition: all 0.3s ease;
+    }
+    .glow-hover:hover {
+      box-shadow: 0 0 20px rgba(14, 165, 233, 0.3);
+      border-color: rgba(14, 165, 233, 0.5);
+      transform: translateY(-2px);
+    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black">
+<body class="min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black mesh-bg">
 
   <!-- Navigation -->
-  <header class="border-b border-gray-800/80 sticky top-0 backdrop-blur-xl bg-gray-950/85 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-6">
-        <a href="/" class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-cyan-500/20">⚡</div>
-          <span class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">ImageEngine</span>
-        </a>
-        <span class="text-gray-500">/</span>
-        <span class="text-sm font-semibold text-gray-300">Terms &amp; Quotas</span>
+  <div class="fixed top-0 left-0 w-full z-50 p-4 sm:p-6 pointer-events-none flex justify-center">
+    <header class="pointer-events-auto w-full max-w-5xl rounded-2xl border border-gray-700/40 glass-panel">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-4 sm:gap-6">
+          <a href="/" class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-cyan-500/20">⚡</div>
+            <span class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent hidden sm:inline-block">ImageEngine</span>
+          </a>
+          <span class="text-gray-500 hidden sm:inline-block">/</span>
+          <span class="text-sm font-semibold text-gray-300">Terms &amp; Quotas</span>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <input type="checkbox" id="menu-toggle" class="hidden peer" />
+        <label for="menu-toggle" class="md:hidden p-2 text-gray-400 hover:text-white cursor-pointer transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+        </label>
+
+        <nav class="absolute top-full left-0 mt-4 w-full bg-gray-950/95 backdrop-blur-2xl border border-gray-700/50 shadow-2xl rounded-2xl hidden peer-checked:flex flex-col md:static md:w-auto md:bg-transparent md:backdrop-blur-none md:border-none md:shadow-none md:flex md:flex-row items-center md:gap-8 gap-4 text-sm font-medium p-6 md:p-0 transition-all">
+          <a href="/" class="text-gray-300 hover:text-white transition w-full md:w-auto text-center md:text-left py-2 md:py-0">Home</a>
+          <a href="/docs" class="text-gray-300 hover:text-white transition w-full md:w-auto text-center md:text-left py-2 md:py-0">API Docs</a>
+          <a href="/integration" class="text-gray-300 hover:text-white transition w-full md:w-auto text-center md:text-left py-2 md:py-0">Drop-in Script</a>
+          <a href="https://grisma.info.np/contact" target="_blank" rel="noopener noreferrer" class="w-full md:w-auto text-center md:text-left px-5 py-2.5 rounded-full bg-white text-black hover:bg-gray-200 font-bold text-xs shadow-[0_0_15px_rgba(255,255,255,0.3)] transition transform hover:scale-105">
+            Get Access ↗
+          </a>
+        </nav>
       </div>
+    </header>
+  </div>
 
-      <nav class="flex items-center gap-6 text-sm font-medium">
-        <a href="/" class="text-gray-300 hover:text-white transition">Home</a>
-        <a href="/docs" class="text-gray-300 hover:text-white transition">API Docs</a>
-        <a href="/integration" class="text-gray-300 hover:text-white transition">Drop-in Script</a>
-        <a href="https://grisma.info.np/contact" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold text-xs transition">
-          Get Access ↗
-        </a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 py-12">
+  <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 py-12 pt-32">
     <!-- Header -->
-    <div class="mb-12">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-800/50 text-cyan-400 text-xs font-mono font-semibold mb-3">
+    <div class="mb-14 text-center">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border-cyan-500/20 text-cyan-400 text-xs font-mono font-semibold mb-6 shadow-inner mx-auto">
         <span>Transparent Fair Use</span>
         <span>•</span>
         <span>Effective September 2026</span>
       </div>
-      <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-4">
+      <h1 class="font-display text-4xl sm:text-6xl font-black text-white tracking-tight mb-6 drop-shadow-md">
         Terms of Service &amp; Usage Quotas
       </h1>
-      <p class="text-gray-300 text-base sm:text-lg leading-relaxed max-w-3xl">
+      <p class="text-gray-400 text-base sm:text-xl leading-relaxed max-w-3xl font-light mx-auto">
         ImageEngine is built as a high-performance edge acceleration layer and hosting crash shield. Review our clear quota model, caching guarantees, and acceptable use requirements below.
       </p>
     </div>
 
     <!-- Core Value Proposition -->
-    <section class="mb-14 p-6 sm:p-8 rounded-3xl bg-gradient-to-tr from-cyan-950/40 via-gray-900 to-gray-900 border border-cyan-500/20">
-      <div class="flex items-start gap-4">
-        <div class="text-3xl">💡</div>
+    <section class="mb-16 p-8 sm:p-10 rounded-3xl bg-gradient-to-tr from-cyan-950/40 via-black/40 to-black/40 border border-cyan-500/20 glass-panel shadow-lg relative overflow-hidden">
+      <div class="absolute -right-10 -top-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-[60px] pointer-events-none"></div>
+      <div class="flex flex-col sm:flex-row items-start gap-6 relative z-10">
+        <div class="text-4xl drop-shadow-[0_0_15px_rgba(34,211,238,0.4)]">💡</div>
         <div>
-          <h2 class="text-xl font-bold text-white mb-2">Architectural Purpose: Edge Delivery &amp; Bandwidth Shield</h2>
-          <p class="text-gray-300 text-sm leading-relaxed mb-3">
-            ImageEngine is <strong class="text-cyan-400">NOT</strong> a database or a permanent file storage replacement. Your original media assets remain safely hosted on your origin servers. ImageEngine dynamically fetches, compresses into modern WebP/AVIF formats, and broadcasts them across <strong class="text-white">330+ global edge cities</strong>.
+          <h2 class="font-display text-2xl font-bold text-white mb-3">Architectural Purpose: Edge Delivery &amp; Bandwidth Shield</h2>
+          <p class="text-gray-300 text-sm leading-relaxed mb-4">
+            ImageEngine is <strong class="text-cyan-400 font-semibold">NOT</strong> a database or a permanent file storage replacement. Your original media assets remain safely hosted on your origin servers. ImageEngine dynamically fetches, compresses into modern WebP/AVIF formats, and broadcasts them across <strong class="text-white font-semibold">330+ global edge cities</strong>.
           </p>
-          <p class="text-gray-400 text-xs leading-relaxed">
+          <p class="text-gray-400 text-sm leading-relaxed">
             By offloading image encoding and heavy file delivery to our edge infrastructure, your web servers avoid memory exhaustion, CPU spikes, and bandwidth overage bills during high-traffic events.
           </p>
         </div>
@@ -84,51 +145,59 @@
     </section>
 
     <!-- Detailed Quota Breakdown -->
-    <section class="mb-14">
-      <h2 class="text-2xl font-bold text-white mb-6">1. Quota Architecture &amp; Delivery Limits</h2>
+    <section class="mb-16">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-lg font-sans font-bold">1</div>
+        <h2 class="font-display text-3xl font-bold text-white">Quota Architecture &amp; Delivery Limits</h2>
+      </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         <!-- Unlimited Edge Delivery -->
-        <div class="p-6 rounded-2xl bg-gray-900/80 border border-emerald-500/30">
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-xs font-mono uppercase font-bold text-emerald-400">Edge Delivery (Cache HIT)</span>
-            <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold">100% Free</span>
+        <div class="p-8 rounded-3xl glass-panel border-emerald-500/30 glow-hover bg-black/20 relative overflow-hidden">
+          <div class="absolute -right-10 -top-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-[40px] pointer-events-none"></div>
+          <div class="flex items-center justify-between mb-4 relative z-10">
+            <span class="text-sm font-mono uppercase font-bold text-emerald-400">Edge Delivery (Cache HIT)</span>
+            <span class="text-xs px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 font-bold shadow-inner">100% Free</span>
           </div>
-          <div class="text-3xl font-black text-white mb-2">UNLIMITED</div>
-          <p class="text-gray-300 text-xs leading-relaxed mb-4">
+          <div class="font-display text-4xl font-black text-white mb-3 relative z-10 tracking-tight">UNLIMITED</div>
+          <p class="text-gray-400 text-sm leading-relaxed mb-6 relative z-10">
             Once an image is processed, it is locked at the edge with immutable cache headers for up to 1 year. Millions of subsequent visitors receive sub-15ms edge delivery with zero compute load on our servers or yours.
           </p>
-          <ul class="text-xs text-gray-400 space-y-2">
-            <li class="flex items-center gap-2">
-              <span class="text-emerald-400 font-bold">✓</span> No monthly egress caps or bandwidth fees
+          <ul class="text-sm text-gray-300 space-y-3 relative z-10">
+            <li class="flex items-start gap-3">
+              <span class="text-emerald-400 font-bold mt-0.5">✓</span>
+              <span>No monthly egress caps or bandwidth fees</span>
             </li>
-            <li class="flex items-center gap-2">
-              <span class="text-emerald-400 font-bold">✓</span> Served from the closest of 330+ PoPs worldwide
+            <li class="flex items-start gap-3">
+              <span class="text-emerald-400 font-bold mt-0.5">✓</span>
+              <span>Served from the closest of 330+ PoPs worldwide</span>
             </li>
-            <li class="flex items-center gap-2">
-              <span class="text-emerald-400 font-bold">✓</span> Automatic HTTP/3 and TLS 1.3 acceleration
+            <li class="flex items-start gap-3">
+              <span class="text-emerald-400 font-bold mt-0.5">✓</span>
+              <span>Automatic HTTP/3 and TLS 1.3 acceleration</span>
             </li>
           </ul>
         </div>
 
         <!-- New Image Transformations -->
-        <div class="p-6 rounded-2xl bg-gray-900/80 border border-cyan-500/30">
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-xs font-mono uppercase font-bold text-cyan-400">Transformations (Cache MISS)</span>
-            <span class="text-xs px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold">Standard Tier</span>
+        <div class="p-8 rounded-3xl glass-panel border-cyan-500/30 glow-hover bg-black/20 relative overflow-hidden">
+          <div class="absolute -right-10 -top-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-[40px] pointer-events-none"></div>
+          <div class="flex items-center justify-between mb-4 relative z-10">
+            <span class="text-sm font-mono uppercase font-bold text-cyan-400">Transformations (Cache MISS)</span>
+            <span class="text-xs px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 font-bold shadow-inner">Standard Tier</span>
           </div>
-          <div class="text-3xl font-black text-white mb-2">1,000 <span class="text-lg font-normal text-gray-400">/ day</span></div>
-          <p class="text-gray-300 text-xs leading-relaxed mb-4">
+          <div class="font-display text-4xl font-black text-white mb-3 relative z-10 tracking-tight">1,000 <span class="text-xl font-normal text-gray-500">/ day</span></div>
+          <p class="text-gray-400 text-sm leading-relaxed mb-6 relative z-10">
             A transformation occurs only when a newly added image or dimension is requested for the very first time.
           </p>
-          <div class="grid grid-cols-2 gap-3 text-xs">
-            <div class="p-2.5 rounded-lg bg-gray-950/70 border border-gray-800">
-              <div class="text-gray-400">Monthly Cap</div>
-              <div class="text-base font-bold text-white">15,000</div>
+          <div class="grid grid-cols-2 gap-4 relative z-10">
+            <div class="p-4 rounded-2xl bg-black/40 border border-gray-700/50 shadow-inner">
+              <div class="text-gray-500 text-xs font-semibold uppercase tracking-wider mb-1">Monthly Cap</div>
+              <div class="font-display text-xl font-bold text-white">15,000</div>
             </div>
-            <div class="p-2.5 rounded-lg bg-gray-950/70 border border-gray-800">
-              <div class="text-gray-400">Annual Cap</div>
-              <div class="text-base font-bold text-white">100,000</div>
+            <div class="p-4 rounded-2xl bg-black/40 border border-gray-700/50 shadow-inner">
+              <div class="text-gray-500 text-xs font-semibold uppercase tracking-wider mb-1">Annual Cap</div>
+              <div class="font-display text-xl font-bold text-white">100,000</div>
             </div>
           </div>
         </div>
@@ -136,70 +205,87 @@
     </section>
 
     <!-- Rate Limiting & 429 Behavior -->
-    <section class="mb-14 p-6 sm:p-8 rounded-2xl bg-gray-900/60 border border-gray-800">
-      <h2 class="text-xl font-bold text-white mb-3">2. Rate Limiting &amp; 429 Response Handling</h2>
-      <p class="text-gray-300 text-sm mb-4 leading-relaxed">
+    <section class="mb-16 p-8 sm:p-10 rounded-3xl glass-panel border-gray-700/40 relative overflow-hidden">
+      <div class="absolute -left-10 top-1/2 -translate-y-1/2 w-40 h-40 bg-blue-500/5 rounded-full blur-[50px] pointer-events-none"></div>
+      <div class="flex items-center gap-4 mb-6 relative z-10">
+        <div class="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-lg font-sans font-bold">2</div>
+        <h2 class="font-display text-2xl font-bold text-white">Rate Limiting &amp; 429 Response Handling</h2>
+      </div>
+      <p class="text-gray-400 text-sm mb-6 leading-relaxed relative z-10 pl-14">
         If a tenant exceeds their daily transformation limit (1,000 new images), the engine responds with:
       </p>
-      <pre>HTTP/2 429 Too Many Requests
+      <div class="pl-14 relative z-10">
+        <pre class="mb-6">HTTP/2 429 Too Many Requests
 Retry-After: 86400
 Content-Type: application/json
 
 {"error": "Daily transformation quota exceeded (1000/day). Request higher limits at https://grisma.info.np/contact", "status": 429}</pre>
-      <div class="mt-4 p-4 rounded-xl bg-blue-950/30 border border-blue-500/20 text-xs text-gray-300 leading-relaxed">
-        <strong class="text-blue-400">Automatic Client Protection:</strong> If you use our <a href="/integration" class="text-cyan-400 underline font-medium">drop-in script</a>, any 429 response triggers an immediate silent fallback to your origin image. Your visitors will experience zero broken images or disruption.
+        <div class="p-5 rounded-2xl bg-blue-950/20 border border-blue-500/20 text-sm text-gray-300 leading-relaxed flex gap-4 items-start shadow-inner">
+          <div class="text-blue-400 text-xl mt-0.5">ℹ️</div>
+          <div>
+            <strong class="text-blue-400 font-semibold block mb-1">Automatic Client Protection:</strong> 
+            If you use our <a href="/integration" class="text-cyan-400 underline font-medium hover:text-cyan-300 transition">drop-in script</a>, any 429 response triggers an immediate silent fallback to your origin image. Your visitors will experience zero broken images or disruption.
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- Acceptable Use Policy -->
-    <section class="mb-14">
-      <h2 class="text-2xl font-bold text-white mb-6">3. Acceptable Use Policy (AUP)</h2>
-      <div class="space-y-4 text-sm text-gray-300">
-        <div class="p-5 rounded-xl bg-gray-900/60 border border-gray-800">
-          <h3 class="font-bold text-white mb-1">Domain Ownership &amp; Verification</h3>
-          <p class="text-xs text-gray-400 leading-relaxed">
+    <section class="mb-16">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-lg font-sans font-bold">3</div>
+        <h2 class="font-display text-3xl font-bold text-white">Acceptable Use Policy (AUP)</h2>
+      </div>
+      <div class="space-y-6 pl-14">
+        <div class="p-6 rounded-3xl glass-panel border-gray-700/40 glow-hover bg-black/10">
+          <h3 class="font-display font-bold text-white text-lg mb-2">Domain Ownership &amp; Verification</h3>
+          <p class="text-sm text-gray-400 leading-relaxed">
             All client domains must undergo verified onboarding. Tenants may only route assets belonging to their registered domain or approved subdomains. Routing unauthorized 3rd-party domains will result in instant origin revocation.
           </p>
         </div>
 
-        <div class="p-5 rounded-xl bg-gray-900/60 border border-gray-800">
-          <h3 class="font-bold text-white mb-1">Prohibited Content</h3>
-          <p class="text-xs text-gray-400 leading-relaxed">
+        <div class="p-6 rounded-3xl glass-panel border-gray-700/40 glow-hover bg-black/10">
+          <h3 class="font-display font-bold text-white text-lg mb-2">Prohibited Content</h3>
+          <p class="text-sm text-gray-400 leading-relaxed">
             Tenants may not process imagery containing malware, phishing assets, CSAM, unauthorized copyrighted materials, or content that violates international laws. We reserve the right to immediately terminate access for abusive activities.
           </p>
         </div>
 
-        <div class="p-5 rounded-xl bg-gray-900/60 border border-gray-800">
-          <h3 class="font-bold text-white mb-1">Automated Scraping &amp; Stress Attacks</h3>
-          <p class="text-xs text-gray-400 leading-relaxed">
-            Intentionally sending randomized pseudo-parameters (e.g. <code class="text-cyan-400">?w=1</code>, <code class="text-cyan-400">?w=2</code>, <code class="text-cyan-400">?w=3</code>) to artificially bust cache and exhaust compute will trigger automatic IP blacklisting at our edge firewalls.
+        <div class="p-6 rounded-3xl glass-panel border-gray-700/40 glow-hover bg-black/10">
+          <h3 class="font-display font-bold text-white text-lg mb-2">Automated Scraping &amp; Stress Attacks</h3>
+          <p class="text-sm text-gray-400 leading-relaxed">
+            Intentionally sending randomized pseudo-parameters (e.g. <code class="text-cyan-400 font-mono bg-white/5 px-1 rounded">?w=1</code>, <code class="text-cyan-400 font-mono bg-white/5 px-1 rounded">?w=2</code>, <code class="text-cyan-400 font-mono bg-white/5 px-1 rounded">?w=3</code>) to artificially bust cache and exhaust compute will trigger automatic IP blacklisting at our edge firewalls.
           </p>
         </div>
       </div>
     </section>
 
     <!-- SLA & Uptime -->
-    <section class="mb-14">
-      <h2 class="text-2xl font-bold text-white mb-4">4. SLA &amp; Service Availability</h2>
-      <p class="text-gray-300 text-sm leading-relaxed mb-4">
+    <section class="mb-16">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-lg font-sans font-bold">4</div>
+        <h2 class="font-display text-3xl font-bold text-white">SLA &amp; Service Availability</h2>
+      </div>
+      <p class="text-gray-400 text-sm leading-relaxed pl-14 max-w-4xl">
         Our edge CDN network leverages Tier-1 infrastructure across Cloudflare Global Edge with a target 99.9% uptime SLA. In the rare event of localized edge maintenance or upstream origin timeouts, our architecture is built with end-to-end multi-region redundancy.
       </p>
     </section>
 
     <!-- Enterprise Custom Scaling -->
-    <section class="mb-14 p-8 rounded-3xl bg-gradient-to-tr from-cyan-950/60 to-gray-900 border border-cyan-500/30 text-center">
-      <h2 class="text-2xl font-bold text-white mb-3">Need Custom Transformation Limits?</h2>
-      <p class="text-gray-300 text-sm max-w-xl mx-auto mb-6">
+    <section class="mb-20 p-10 rounded-[3rem] bg-gradient-to-t from-cyan-950/30 to-black/40 border border-cyan-500/20 text-center glass-panel shadow-2xl relative overflow-hidden">
+      <div class="absolute inset-0 bg-mesh-bg opacity-50 pointer-events-none -z-10"></div>
+      <h2 class="font-display text-3xl font-black text-white mb-4">Need Custom Transformation Limits?</h2>
+      <p class="text-gray-400 text-sm max-w-2xl mx-auto mb-8 font-light">
         High-traffic publishers, newsrooms, and e-commerce platforms requiring 50,000+ daily transformations or custom CNAME white-labeling can request an enterprise quota upgrade.
       </p>
-      <a href="https://grisma.info.np/contact" target="_blank" rel="noopener noreferrer" class="px-8 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold text-sm shadow-xl shadow-cyan-500/30 transition">
+      <a href="https://grisma.info.np/contact" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-white text-black font-bold text-sm shadow-[0_0_25px_rgba(255,255,255,0.3)] transition transform hover:-translate-y-1 hover:bg-gray-100">
         Contact Engineering for Higher Limits ↗
       </a>
     </section>
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-gray-800/80 bg-gray-950/90 text-gray-400 text-xs py-10">
+  <footer class="border-t border-gray-800/60 glass-panel mt-10 text-gray-400 text-sm py-12 rounded-t-[3rem]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div>
         <p>© 2026 ImageEngine Edge CDN. All rights reserved.</p>
